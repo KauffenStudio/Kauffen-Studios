@@ -7,17 +7,6 @@
 const $ = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
-const SLIDES = [
-  { num: '01', name: 'Anna Capocchi',   url: 'https://annacapocchi.com'   },
-  { num: '02', name: 'Augustin Agapii', url: 'https://augustinagapii.com' },
-  { num: '03', name: 'iStarTec',        url: 'https://istartec.co'        },
-  { num: '04', name: 'JetWash 24',      url: 'https://jetwash24.com'      },
-  { num: '05', name: 'Motto',           url: 'https://wearemotto.com'     },
-  { num: '06', name: 'TwoCreate',       url: 'https://twocreate.com'      },
-  { num: '07', name: 'Clou Architects', url: 'https://clouarchitects.com' },
-];
-
-const SLIDE_DUR  = 7500; // ms between slide changes
 
 /* ════════════════════════════════════════
    CURSOR — init immediately so it works
@@ -277,91 +266,6 @@ function initAnchors() {
    Slide-down pan uses GSAP for both scale
    and translateY so they don't fight.
 ═════════════════════════════════════════ */
-function initHeroSlideshow() {
-  const hsEls    = $$('.hs');
-  const dots     = $$('.h-dot');
-  const numEl    = $('#hpiNum');
-  const nameEl   = $('#hpiName');
-  const timerFill = $('#hTimerFill');
-  if (!hsEls.length) return;
-
-  let current = 0;
-  let timer   = null;
-  let paused  = false;
-
-  /* Timer progress bar */
-  let timerRAF   = null;
-  let timerStart = null;
-
-  function startTimer() {
-    cancelAnimationFrame(timerRAF);
-    if (timerFill) { timerFill.style.transition = 'none'; timerFill.style.width = '0%'; }
-    timerStart = performance.now();
-    const tick = now => {
-      const p = Math.min((now - timerStart) / SLIDE_DUR, 1);
-      if (timerFill) timerFill.style.width = (p * 100) + '%';
-      if (p < 1) timerRAF = requestAnimationFrame(tick);
-    };
-    timerRAF = requestAnimationFrame(tick);
-  }
-
-  /* Activate a slide */
-  function goTo(idx) {
-    const next = ((idx % SLIDES.length) + SLIDES.length) % SLIDES.length;
-    if (next === current && timer !== null) return;
-
-    clearTimeout(timer);
-
-    hsEls[current].classList.remove('active');
-    current = next;
-    hsEls[current].classList.add('active');
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
-
-    // Update labels with a quick fade
-    const s = SLIDES[current];
-    if (numEl) {
-      gsap.to(numEl,  { opacity: 0, y: -6, duration: .18, onComplete: () => {
-        numEl.textContent = s.num + ' / 07';
-        gsap.to(numEl, { opacity: 1, y: 0, duration: .3 });
-      }});
-    }
-    if (nameEl) {
-      gsap.to(nameEl, { opacity: 0, y: -6, duration: .18, onComplete: () => {
-        nameEl.textContent = s.name;
-        gsap.to(nameEl, { opacity: 1, y: 0, duration: .3 });
-      }});
-    }
-
-    startTimer();
-    if (!paused) timer = setTimeout(() => goTo(current + 1), SLIDE_DUR);
-  }
-
-  /* Dot clicks */
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      const idx = parseInt(dot.dataset.goto);
-      clearTimeout(timer);
-      current = -1;
-      goTo(idx);
-    });
-  });
-
-  /* Pause when tab hidden */
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      paused = true;
-      clearTimeout(timer);
-      cancelAnimationFrame(timerRAF);
-    } else {
-      paused = false;
-      startTimer();
-      timer = setTimeout(() => goTo(current + 1), SLIDE_DUR);
-    }
-  });
-
-  // Kick off
-  goTo(0);
-}
 
 /* ════════════════════════════════════════
    HERO REVEAL ANIMATIONS
@@ -371,17 +275,12 @@ function initHeroReveal() {
   gsap.set('.hero-eyebrow',    { opacity: 0, y: 8 });
   gsap.set('.hero-sub',        { opacity: 0, y: 12 });
   gsap.set('.hero-btns',       { opacity: 0, y: 12 });
-  gsap.set('.h-proj-info',     { opacity: 0 });
-  gsap.set('.h-scroll',        { opacity: 0 });
-  gsap.set('.h-dots',          { opacity: 0 });
 
   const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
   tl.to('.hero-eyebrow',       { opacity: 1, y: 0, duration: .7 }, .1);
   tl.to('.hero-title .hi',     { y: '0%', duration: 1.1, stagger: .14 }, .22);
   tl.to('.hero-sub',           { opacity: 1, y: 0, duration: .8 }, .88);
   tl.to('.hero-btns',          { opacity: 1, y: 0, duration: .7 }, 1.0);
-  tl.to('.h-proj-info',        { opacity: 1, duration: .6 }, 1.1);
-  tl.to(['.h-scroll', '.h-dots'], { opacity: 1, duration: .6 }, 1.2);
 }
 
 /* ════════════════════════════════════════
@@ -591,17 +490,6 @@ function initTilt() {
   });
 }
 
-/* ════════════════════════════════════════
-   PARALLAX — hero background
-═════════════════════════════════════════ */
-function initParallax() {
-  gsap.to('.hero-bg', {
-    yPercent: 10, ease: 'none',
-    scrollTrigger: {
-      trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.5,
-    }
-  });
-}
 
 /* ════════════════════════════════════════
    BOOT
@@ -619,7 +507,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
     initAnchors();
     initHeroReveal();
-    initHeroSlideshow();
     initReveals();
     initStats();
     initScramble();
@@ -627,7 +514,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initWorkCards();
     initWorkScrollPan();
     initTilt();
-    initParallax();
   });
 
 });
