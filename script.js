@@ -95,51 +95,56 @@ function initCursor() {
    LOADER
 ═════════════════════════════════════════ */
 function runLoader(onDone) {
-  const loader = $('#loader');
-  const panelL = $('.ldr-panel--left');
-  const panelR = $('.ldr-panel--right');
-  const lines  = $$('.ldr-line');
-  if (!loader || !lines.length) { onDone?.(); return; }
+  const loader  = $('#loader');
+  const box     = $('#ldrBox');
+  const wipe    = $('#ldrWipe');
+  const word    = $('#ldrWord');
+  const final_  = $('#ldrFinal');
+  if (!loader) { onDone?.(); return; }
 
-  // Panels start open (scaleX 0), will close in to reveal text
-  gsap.set([panelL, panelR], { scaleX: 0 });
+  const words = ['designers.', 'developers.'];
 
   const tl = gsap.timeline();
 
-  lines.forEach((line, i) => {
-    const isFinal = line.classList.contains('ldr-line--final');
+  // Start with wipe covering the black box (hidden)
+  gsap.set(wipe, { xPercent: 0 });
 
-    // Panels close in (black boxes slide in from sides)
-    tl.to([panelL, panelR], {
-      scaleX: 1,
-      duration: 0.5,
-      ease: 'power3.inOut',
-    });
+  // Wipe reveals the black box (slides right to expose text)
+  tl.to(wipe, { xPercent: 100, duration: 0.8, ease: 'power3.inOut' });
 
-    // Text appears
-    tl.set(line, { opacity: 1 });
+  // Hold first word
+  tl.to({}, { duration: 0.7 });
 
-    // Hold the text
-    tl.to({}, { duration: isFinal ? 1.0 : 0.55 });
+  // Cycle through words
+  words.forEach((w, i) => {
+    if (i === 0) return; // skip first word (already showing "designers.")
 
-    if (!isFinal) {
-      // Hide text, then panels open (slide out)
-      tl.set(line, { opacity: 0 });
-      tl.to([panelL, panelR], {
-        scaleX: 0,
-        duration: 0.5,
-        ease: 'power3.inOut',
-      });
-      // Brief pause between lines
-      tl.to({}, { duration: 0.15 });
-    }
+    // Wipe covers text (slides back left)
+    tl.to(wipe, { xPercent: 0, duration: 0.5, ease: 'power3.inOut' });
+
+    // Swap word while hidden
+    tl.call(() => { word.textContent = w; });
+
+    // Wipe reveals again
+    tl.to(wipe, { xPercent: 100, duration: 0.5, ease: 'power3.inOut' });
+
+    // Hold
+    tl.to({}, { duration: 0.7 });
   });
 
-  // Final reveal: panels slide out to reveal the site
-  tl.to([panelL, panelR], {
-    scaleX: 0,
-    duration: 0.8,
-    ease: 'power4.inOut',
+  // Wipe covers text one last time
+  tl.to(wipe, { xPercent: 0, duration: 0.5, ease: 'power3.inOut' });
+
+  // Hide black box, show final "We are Kauffen." in dark text on cream
+  tl.to(box, { opacity: 0, duration: 0.01 });
+  tl.to(final_, { opacity: 1, duration: 0.01 });
+
+  // Hold final
+  tl.to({}, { duration: 1.0 });
+
+  // Fade out loader to reveal the site
+  tl.to(loader, {
+    opacity: 0, duration: 0.8, ease: 'power2.inOut',
     onComplete: () => { loader.remove(); onDone?.(); }
   });
 }
