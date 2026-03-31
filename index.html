@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kauffen Studios — Web Design & Development Agency</title>
+  <meta name="description" content="Kauffen Studios — A boutique web design and development agency crafting custom digital experiences for ambitious brands.">
+  <meta name="theme-color" content="#0A0907">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- GSAP -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <!-- Lenis -->
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Grain overlay -->
+  <svg class="grain-svg" aria-hidden="true" focusable="false">
+    <filter id="grain-f">
+      <feTurbulence type="fractalNoise" baseFrequency="0.68" numOctaves="4" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#grain-f)"/>
+  </svg>
+
+  <!-- Custom cursor -->
+  <div class="c-dot"  id="cDot"  aria-hidden="true"></div>
+  <div class="c-ring" id="cRing" aria-hidden="true">
+    <span class="c-lbl" id="cLbl"></span>
+  </div>
+
+  <!-- Scroll progress -->
+  <div class="scroll-prog" id="scrollProg" aria-hidden="true"></div>
+
+  <!-- ════════════════════════════════════════
+       LOADER
+  ═════════════════════════════════════════ -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <div class="ldr-logo">
+        <span class="ldr-k">KAUFFEN</span>
+        <span class="ldr-s">STUDIOS</span>
+      </div>
+      <div class="ldr-bar-wrap">
+        <div class="ldr-bar" id="ldrBar"></div>
+      </div>
+      <span class="ldr-pct" id="ldrPct">0%</span>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       NAV
+  ═════════════════════════════════════════ -->
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+
+      <a href="#" class="logo" aria-label="Kauffen Studios — Back to top">
+        <span class="logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="12"   stroke="currentColor" stroke-width="0.9"  stroke-dasharray="4 6.5"   class="ring-a"/>
+            <circle cx="16" cy="16" r="6.5"  stroke="currentColor" stroke-width="1.1"  stroke-dasharray="5.5 5"   class="ring-b"/>
+            <circle cx="16" cy="16" r="1.6"  fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="logo-txt">
+          <b>KAUFFEN</b><em>Studios</em>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#work"     class="nl">Work</a>
+        <a href="#services" class="nl">Services</a>
+        <a href="#about"    class="nl">About</a>
+        <a href="#contact"  class="nl">Contact</a>
+      </nav>
+
+      <a href="mailto:info@kauffen.com" class="nav-cta" data-cursor="EMAIL">
+        <span>Start a Project</span>
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+          <path d="M1.5 11.5L11.5 1.5M11.5 1.5H5.5M11.5 1.5V7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </a>
+
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+
+    </div>
+  </header>
+
+  <!-- Mobile menu -->
+  <div class="mob-menu" id="mobMenu" role="dialog" aria-hidden="true" aria-label="Navigation">
+    <div class="mob-inner">
+      <nav class="mob-nav">
+        <a href="#work"     class="mob-lnk">Work</a>
+        <a href="#services" class="mob-lnk">Services</a>
+        <a href="#about"    class="mob-lnk">About</a>
+        <a href="#contact"  class="mob-lnk">Contact</a>
+      </nav>
+      <a href="mailto:info@kauffen.com" class="mob-email">info@kauffen.com</a>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       HERO — fullscreen with live project backgrounds
+  ═════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+
+    <!-- Cycling website backgrounds -->
+    <div class="hero-bg" id="heroBg" aria-hidden="true">
+      <div class="hs-wrap" id="hsWrap">
+
+        <div class="hs active" data-hs="0">
+          <iframe src="https://annacapocchi.com" scrolling="no" loading="lazy"
+                  sandbox="allow-same-origin allow-scripts" tabindex="-1"
+                  title="Anna Capocchi website preview"></iframe>
+          <div class="hs-fb" data-letter="AC"></div>
+        </div>
+
+        <div class="hs" data-hs="1">
+          <iframe src="https://augustinagapii.com" scrolling="no" loading="lazy"
+                  sandbox="allow-same-origin allow-scripts" tabindex="-1"
+                  title="Augustin Agapii website preview"></iframe>
+          <div class="hs-fb" data-letter="AA"></div>
+        </div>
+
+        <div class="hs" data-hs="2">
+          <iframe src="https://istartec.co" scrolling="no" loading="lazy"
+                  sandbox="allow-same-origin allow-scripts" tabindex="-1"
+                  title="iStarTec website preview"></iframe>
+          <div class="hs-fb" data-letter="IS"></div>
+        </div>
+
+        <div class="hs" data-hs="3">
+          <iframe src="https://jetwash24.com" scrolling="no" loading="lazy"
+                  sandbox="allow-same-origin allow-scripts" tabindex="-1"
+                  title="JetWash 24 website preview"></iframe>
+          <div class="hs-fb" data-letter="JW"></div>
+        </div>
+
+        <div class="hs" data-hs="4">
+          <iframe src="https://wearemotto.com" scrolling="no" loading="lazy"
+                  sandbox="allow-same-origin allow-scripts" tabindex="-1"
+                  title="Motto website preview"></iframe>
+          <div class="hs-fb" data-letter="MT"></div>
+        </div>
+
+        <div class="hs" data-hs="5">
+          <iframe src="https://twocreate.com" scrolling="no" loading="lazy"
+                  sandbox="allow-same-origin allow-scripts" tabindex="-1"
+                  title="TwoCreate website preview"></iframe>
+          <div class="hs-fb" data-letter="TC"></div>
+        </div>
+
+        <div class="hs" data-hs="6">
+          <iframe src="https://clouarchitects.com" scrolling="no" loading="lazy"
+                  sandbox="allow-same-origin allow-scripts" tabindex="-1"
+                  title="Clou Architects website preview"></iframe>
+          <div class="hs-fb" data-letter="CA"></div>
+        </div>
+
+      </div>
+      <div class="hero-overlay"></div>
+    </div>
+
+    <!-- Hero text content -->
+    <div class="hero-content">
+
+      <span class="hero-eyebrow">Web Design &amp; Development Agency</span>
+
+      <h1 class="hero-title">
+        <span class="hl"><span class="hi">We design &amp;</span></span>
+        <span class="hl"><span class="hi hi-em">build digital</span></span>
+        <span class="hl"><span class="hi">experiences.</span></span>
+      </h1>
+
+      <div class="hero-foot">
+        <p class="hero-sub">Custom websites &amp; digital strategy<br>for ambitious brands worldwide.</p>
+        <div class="hero-btns">
+          <a href="#work" class="btn-pri">See Our Work</a>
+          <a href="mailto:info@kauffen.com" class="btn-ghost" data-cursor="EMAIL">info@kauffen.com ↗</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Project counter — absolute bottom-right -->
+    <div class="h-proj-info" id="hProjInfo" aria-hidden="true">
+      <span class="hpi-num" id="hpiNum">01 / 07</span>
+      <span class="hpi-sep">—</span>
+      <span class="hpi-name" id="hpiName">Anna Capocchi</span>
+    </div>
+
+    <!-- Slide dots — absolute right-center -->
+    <div class="h-dots" id="hDots" aria-label="Project navigation">
+      <button class="h-dot active" data-goto="0" aria-label="Project 1"></button>
+      <button class="h-dot" data-goto="1" aria-label="Project 2"></button>
+      <button class="h-dot" data-goto="2" aria-label="Project 3"></button>
+      <button class="h-dot" data-goto="3" aria-label="Project 4"></button>
+      <button class="h-dot" data-goto="4" aria-label="Project 5"></button>
+      <button class="h-dot" data-goto="5" aria-label="Project 6"></button>
+      <button class="h-dot" data-goto="6" aria-label="Project 7"></button>
+    </div>
+
+    <!-- Progress bar for current slide -->
+    <div class="h-timer" aria-hidden="true">
+      <div class="h-timer-fill" id="hTimerFill"></div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="h-scroll" aria-hidden="true">
+      <div class="hsc-line"></div>
+      <span>Scroll</span>
+    </div>
+
+  </section>
+
+  <!-- ════════════════════════════════════════
+       MARQUEE 1
+  ═════════════════════════════════════════ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="mq-track">
+      <span>WEB DESIGN</span><i class="mq-d">◆</i>
+      <span>DEVELOPMENT</span><i class="mq-d">◆</i>
+      <span>BRANDING</span><i class="mq-d">◆</i>
+      <span>HOSTING</span><i class="mq-d">◆</i>
+      <span>UI / UX</span><i class="mq-d">◆</i>
+      <span>STRATEGY</span><i class="mq-d">◆</i>
+      <span>WEB DESIGN</span><i class="mq-d">◆</i>
+      <span>DEVELOPMENT</span><i class="mq-d">◆</i>
+      <span>BRANDING</span><i class="mq-d">◆</i>
+      <span>HOSTING</span><i class="mq-d">◆</i>
+      <span>UI / UX</span><i class="mq-d">◆</i>
+      <span>STRATEGY</span><i class="mq-d">◆</i>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       WORK SECTION
+  ═════════════════════════════════════════ -->
+  <section class="work" id="work">
+
+    <div class="work-hdr">
+      <div class="wh-left">
+        <span class="eyebrow">Selected Work</span>
+        <h2 class="work-h">
+          <span class="rw"><span class="ri">Projects</span></span>
+        </h2>
+      </div>
+      <p class="wh-note">07 websites built &amp; live</p>
+    </div>
+
+    <div class="work-grid" id="workGrid">
+
+      <!-- 01 Anna Capocchi -->
+      <article class="wc" data-cursor="VIEW">
+        <a href="https://annacapocchi.com" target="_blank" rel="noopener" class="wc-a">
+          <div class="wc-screen">
+            <div class="browser-bar" aria-hidden="true">
+              <span class="bdots"><i></i><i></i><i></i></span>
+              <span class="burl">annacapocchi.com</span>
+              <span class="bext">↗</span>
+            </div>
+            <div class="wc-vp">
+              <iframe src="https://annacapocchi.com" scrolling="no" loading="lazy"
+                      sandbox="allow-same-origin allow-scripts" tabindex="-1"></iframe>
+              <div class="wc-fb" data-letter="AC">
+                <span class="fb-nm">Anna Capocchi</span>
+                <span class="fb-u">annacapocchi.com</span>
+              </div>
+              <div class="wc-hover"><span>Visit Site ↗</span></div>
+            </div>
+          </div>
+          <div class="wc-meta">
+            <div class="wc-ml">
+              <span class="wc-n">01</span>
+              <div>
+                <h3 class="wc-nm">Anna Capocchi</h3>
+                <p class="wc-cat">Brand &amp; Portfolio</p>
+              </div>
+            </div>
+            <span class="wc-url">annacapocchi.com</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- 02 Augustin Agapii -->
+      <article class="wc" data-cursor="VIEW">
+        <a href="https://augustinagapii.com" target="_blank" rel="noopener" class="wc-a">
+          <div class="wc-screen">
+            <div class="browser-bar" aria-hidden="true">
+              <span class="bdots"><i></i><i></i><i></i></span>
+              <span class="burl">augustinagapii.com</span>
+              <span class="bext">↗</span>
+            </div>
+            <div class="wc-vp">
+              <iframe src="https://augustinagapii.com" scrolling="no" loading="lazy"
+                      sandbox="allow-same-origin allow-scripts" tabindex="-1"></iframe>
+              <div class="wc-fb" data-letter="AA">
+                <span class="fb-nm">Augustin Agapii</span>
+                <span class="fb-u">augustinagapii.com</span>
+              </div>
+              <div class="wc-hover"><span>Visit Site ↗</span></div>
+            </div>
+          </div>
+          <div class="wc-meta">
+            <div class="wc-ml">
+              <span class="wc-n">02</span>
+              <div>
+                <h3 class="wc-nm">Augustin Agapii</h3>
+                <p class="wc-cat">Personal Portfolio</p>
+              </div>
+            </div>
+            <span class="wc-url">augustinagapii.com</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- 03 iStarTec -->
+      <article class="wc" data-cursor="VIEW">
+        <a href="https://istartec.co" target="_blank" rel="noopener" class="wc-a">
+          <div class="wc-screen">
+            <div class="browser-bar" aria-hidden="true">
+              <span class="bdots"><i></i><i></i><i></i></span>
+              <span class="burl">istartec.co</span>
+              <span class="bext">↗</span>
+            </div>
+            <div class="wc-vp">
+              <iframe src="https://istartec.co" scrolling="no" loading="lazy"
+                      sandbox="allow-same-origin allow-scripts" tabindex="-1"></iframe>
+              <div class="wc-fb" data-letter="IS">
+                <span class="fb-nm">iStarTec</span>
+                <span class="fb-u">istartec.co</span>
+              </div>
+              <div class="wc-hover"><span>Visit Site ↗</span></div>
+            </div>
+          </div>
+          <div class="wc-meta">
+            <div class="wc-ml">
+              <span class="wc-n">03</span>
+              <div>
+                <h3 class="wc-nm">iStarTec</h3>
+                <p class="wc-cat">Technical Contractor</p>
+              </div>
+            </div>
+            <span class="wc-url">istartec.co</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- 04 JetWash 24 -->
+      <article class="wc" data-cursor="VIEW">
+        <a href="https://jetwash24.com" target="_blank" rel="noopener" class="wc-a">
+          <div class="wc-screen">
+            <div class="browser-bar" aria-hidden="true">
+              <span class="bdots"><i></i><i></i><i></i></span>
+              <span class="burl">jetwash24.com</span>
+              <span class="bext">↗</span>
+            </div>
+            <div class="wc-vp">
+              <iframe src="https://jetwash24.com" scrolling="no" loading="lazy"
+                      sandbox="allow-same-origin allow-scripts" tabindex="-1"></iframe>
+              <div class="wc-fb" data-letter="JW">
+                <span class="fb-nm">JetWash 24</span>
+                <span class="fb-u">jetwash24.com</span>
+              </div>
+              <div class="wc-hover"><span>Visit Site ↗</span></div>
+            </div>
+          </div>
+          <div class="wc-meta">
+            <div class="wc-ml">
+              <span class="wc-n">04</span>
+              <div>
+                <h3 class="wc-nm">JetWash 24</h3>
+                <p class="wc-cat">Car Wash Platform</p>
+              </div>
+            </div>
+            <span class="wc-url">jetwash24.com</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- 05 Motto -->
+      <article class="wc" data-cursor="VIEW">
+        <a href="https://wearemotto.com" target="_blank" rel="noopener" class="wc-a">
+          <div class="wc-screen">
+            <div class="browser-bar" aria-hidden="true">
+              <span class="bdots"><i></i><i></i><i></i></span>
+              <span class="burl">wearemotto.com</span>
+              <span class="bext">↗</span>
+            </div>
+            <div class="wc-vp">
+              <iframe src="https://wearemotto.com" scrolling="no" loading="lazy"
+                      sandbox="allow-same-origin allow-scripts" tabindex="-1"></iframe>
+              <div class="wc-fb" data-letter="MT">
+                <span class="fb-nm">Motto</span>
+                <span class="fb-u">wearemotto.com</span>
+              </div>
+              <div class="wc-hover"><span>Visit Site ↗</span></div>
+            </div>
+          </div>
+          <div class="wc-meta">
+            <div class="wc-ml">
+              <span class="wc-n">05</span>
+              <div>
+                <h3 class="wc-nm">Motto</h3>
+                <p class="wc-cat">Creative Agency</p>
+              </div>
+            </div>
+            <span class="wc-url">wearemotto.com</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- 06 TwoCreate -->
+      <article class="wc" data-cursor="VIEW">
+        <a href="https://twocreate.com" target="_blank" rel="noopener" class="wc-a">
+          <div class="wc-screen">
+            <div class="browser-bar" aria-hidden="true">
+              <span class="bdots"><i></i><i></i><i></i></span>
+              <span class="burl">twocreate.com</span>
+              <span class="bext">↗</span>
+            </div>
+            <div class="wc-vp">
+              <iframe src="https://twocreate.com" scrolling="no" loading="lazy"
+                      sandbox="allow-same-origin allow-scripts" tabindex="-1"></iframe>
+              <div class="wc-fb" data-letter="TC">
+                <span class="fb-nm">TwoCreate</span>
+                <span class="fb-u">twocreate.com</span>
+              </div>
+              <div class="wc-hover"><span>Visit Site ↗</span></div>
+            </div>
+          </div>
+          <div class="wc-meta">
+            <div class="wc-ml">
+              <span class="wc-n">06</span>
+              <div>
+                <h3 class="wc-nm">TwoCreate</h3>
+                <p class="wc-cat">Creative Studio</p>
+              </div>
+            </div>
+            <span class="wc-url">twocreate.com</span>
+          </div>
+        </a>
+      </article>
+
+      <!-- 07 Clou Architects — wide card -->
+      <article class="wc wc-wide" data-cursor="VIEW">
+        <a href="https://clouarchitects.com" target="_blank" rel="noopener" class="wc-a">
+          <div class="wc-screen">
+            <div class="browser-bar" aria-hidden="true">
+              <span class="bdots"><i></i><i></i><i></i></span>
+              <span class="burl">clouarchitects.com</span>
+              <span class="bext">↗</span>
+            </div>
+            <div class="wc-vp">
+              <iframe src="https://clouarchitects.com" scrolling="no" loading="lazy"
+                      sandbox="allow-same-origin allow-scripts" tabindex="-1"></iframe>
+              <div class="wc-fb" data-letter="CA">
+                <span class="fb-nm">Clou Architects</span>
+                <span class="fb-u">clouarchitects.com</span>
+              </div>
+              <div class="wc-hover"><span>Visit Site ↗</span></div>
+            </div>
+          </div>
+          <div class="wc-meta">
+            <div class="wc-ml">
+              <span class="wc-n">07</span>
+              <div>
+                <h3 class="wc-nm">Clou Architects</h3>
+                <p class="wc-cat">Architecture Studio</p>
+              </div>
+            </div>
+            <span class="wc-url">clouarchitects.com</span>
+          </div>
+        </a>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       SERVICES
+  ═════════════════════════════════════════ -->
+  <section class="services" id="services">
+    <div class="svc-inner">
+
+      <div class="svc-hdr">
+        <span class="eyebrow eyebrow-lt">What We Do</span>
+        <h2 class="svc-h">
+          <span class="rw"><span class="ri">Services</span></span>
+        </h2>
+      </div>
+
+      <ul class="svc-list">
+        <li class="svc-item" data-magnetic>
+          <span class="si-n">01</span>
+          <div class="si-body">
+            <h3 class="si-nm">Web Design</h3>
+            <p class="si-d">Custom UI/UX crafted around your brand identity — unique, intentional and built to engage.</p>
+          </div>
+          <span class="si-arr">↗</span>
+        </li>
+        <li class="svc-item" data-magnetic>
+          <span class="si-n">02</span>
+          <div class="si-body">
+            <h3 class="si-nm">Web Development</h3>
+            <p class="si-d">Full-stack engineering — clean code, fast performance, pixel-perfect across every device.</p>
+          </div>
+          <span class="si-arr">↗</span>
+        </li>
+        <li class="svc-item" data-magnetic>
+          <span class="si-n">03</span>
+          <div class="si-body">
+            <h3 class="si-nm">Hosting &amp; Deployment</h3>
+            <p class="si-d">Managed hosting with CDN delivery, zero-downtime deployments and ongoing maintenance.</p>
+          </div>
+          <span class="si-arr">↗</span>
+        </li>
+        <li class="svc-item" data-magnetic>
+          <span class="si-n">04</span>
+          <div class="si-body">
+            <h3 class="si-nm">Privacy &amp; Security</h3>
+            <p class="si-d">SSL, GDPR compliance, data protection and security monitoring to keep your users safe.</p>
+          </div>
+          <span class="si-arr">↗</span>
+        </li>
+      </ul>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       ABOUT
+  ═════════════════════════════════════════ -->
+  <section class="about" id="about">
+    <div class="abt-inner">
+
+      <div class="abt-left">
+        <span class="eyebrow">The Studio</span>
+        <p class="abt-stmt">
+          <span class="rw"><span class="ri">A boutique studio</span></span>
+          <span class="rw"><span class="ri ri-em">building the web,</span></span>
+          <span class="rw"><span class="ri">one brand at a time.</span></span>
+        </p>
+        <p class="abt-body">Every project is built from scratch — no templates, no shortcuts. We combine strategy, design and engineering into digital experiences that look great and convert.</p>
+        <a href="#contact" class="btn-outline">Start a Conversation →</a>
+      </div>
+
+      <div class="abt-right">
+        <div class="stat">
+          <span class="sv" data-count="50" data-suffix="+">0</span>
+          <span class="sl">Live Projects</span>
+        </div>
+        <div class="stat">
+          <span class="sv">100%</span>
+          <span class="sl">Custom Builds</span>
+        </div>
+        <div class="stat">
+          <span class="sv" data-count="4">0</span>
+          <span class="sl">Core Services</span>
+        </div>
+        <div class="stat">
+          <span class="sv" data-count="3">0</span>
+          <span class="sl">Years Active</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       MARQUEE 2
+  ═════════════════════════════════════════ -->
+  <div class="marquee marquee-rev" aria-hidden="true">
+    <div class="mq-track mq-rev">
+      <span>LET'S BUILD SOMETHING GREAT</span><i class="mq-d">◆</i>
+      <span>LET'S BUILD SOMETHING GREAT</span><i class="mq-d">◆</i>
+      <span>LET'S BUILD SOMETHING GREAT</span><i class="mq-d">◆</i>
+      <span>LET'S BUILD SOMETHING GREAT</span><i class="mq-d">◆</i>
+      <span>LET'S BUILD SOMETHING GREAT</span><i class="mq-d">◆</i>
+      <span>LET'S BUILD SOMETHING GREAT</span><i class="mq-d">◆</i>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       CONTACT
+  ═════════════════════════════════════════ -->
+  <section class="contact" id="contact">
+    <div class="ct-inner">
+
+      <span class="eyebrow eyebrow-lt eyebrow-pale">Get in Touch</span>
+      <h2 class="ct-h">
+        <span class="rw"><span class="ri">Let's work</span></span>
+        <span class="rw"><span class="ri ri-em">together.</span></span>
+      </h2>
+
+      <div class="ct-channels">
+        <a href="mailto:info@kauffen.com" class="ct-ch" data-cursor="EMAIL">
+          <div class="ch-info">
+            <span class="ch-lbl">Email us</span>
+            <span class="ch-val">info@kauffen.com</span>
+          </div>
+          <span class="ch-arr">↗</span>
+        </a>
+        <a href="https://instagram.com/kauffen.studios" target="_blank" rel="noopener noreferrer" class="ct-ch" data-cursor="FOLLOW">
+          <div class="ch-info">
+            <span class="ch-lbl">Instagram</span>
+            <span class="ch-val">@kauffen.studios</span>
+          </div>
+          <span class="ch-arr">↗</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       FOOTER
+  ═════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="ft-inner">
+      <div class="ft-top">
+        <a href="#" class="logo logo-lt" aria-label="Kauffen Studios — Back to top">
+          <span class="logo-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="12"   stroke="currentColor" stroke-width="0.9"  stroke-dasharray="4 6.5"   class="ring-a"/>
+              <circle cx="16" cy="16" r="6.5"  stroke="currentColor" stroke-width="1.1"  stroke-dasharray="5.5 5"   class="ring-b"/>
+              <circle cx="16" cy="16" r="1.6"  fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="logo-txt"><b>KAUFFEN</b><em>Studios</em></span>
+        </a>
+        <nav class="ft-nav" aria-label="Footer navigation">
+          <a href="#work">Work</a>
+          <a href="#services">Services</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+      <div class="ft-bot">
+        <span>© 2026 Kauffen Studios. All rights reserved.</span>
+        <span class="ft-tag">Crafted with precision.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
