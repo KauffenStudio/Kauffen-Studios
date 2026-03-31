@@ -96,39 +96,51 @@ function initCursor() {
 ═════════════════════════════════════════ */
 function runLoader(onDone) {
   const loader = $('#loader');
+  const panelL = $('.ldr-panel--left');
+  const panelR = $('.ldr-panel--right');
   const lines  = $$('.ldr-line');
   if (!loader || !lines.length) { onDone?.(); return; }
 
-  const tl = gsap.timeline({
-    onComplete: () => {
-      gsap.to(loader, {
-        yPercent: -100, duration: 1, ease: 'power4.inOut',
-        onComplete: () => { loader.remove(); onDone?.(); }
-      });
-    }
-  });
+  // Panels start open (scaleX 0), will close in to reveal text
+  gsap.set([panelL, panelR], { scaleX: 0 });
+
+  const tl = gsap.timeline();
 
   lines.forEach((line, i) => {
     const isFinal = line.classList.contains('ldr-line--final');
-    const holdDur = isFinal ? 1.2 : 0.6;
 
-    tl.to(line, {
-      opacity: 1,
-      clipPath: 'inset(0 0% 0 0)',
-      duration: 0.7,
-      ease: 'power3.out',
+    // Panels close in (black boxes slide in from sides)
+    tl.to([panelL, panelR], {
+      scaleX: 1,
+      duration: 0.5,
+      ease: 'power3.inOut',
     });
 
+    // Text appears
+    tl.set(line, { opacity: 1 });
+
+    // Hold the text
+    tl.to({}, { duration: isFinal ? 1.0 : 0.55 });
+
     if (!isFinal) {
-      tl.to(line, {
-        opacity: 0,
-        y: -30,
-        duration: 0.4,
-        ease: 'power2.in',
-      }, `+=${holdDur}`);
-    } else {
-      tl.to({}, { duration: holdDur });
+      // Hide text, then panels open (slide out)
+      tl.set(line, { opacity: 0 });
+      tl.to([panelL, panelR], {
+        scaleX: 0,
+        duration: 0.5,
+        ease: 'power3.inOut',
+      });
+      // Brief pause between lines
+      tl.to({}, { duration: 0.15 });
     }
+  });
+
+  // Final reveal: panels slide out to reveal the site
+  tl.to([panelL, panelR], {
+    scaleX: 0,
+    duration: 0.8,
+    ease: 'power4.inOut',
+    onComplete: () => { loader.remove(); onDone?.(); }
   });
 }
 
