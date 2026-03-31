@@ -269,24 +269,36 @@ function initHeroSlideshow() {
      - If load fires and contentDocument is accessible → blocked (same-origin but empty)
      - If SecurityError is thrown → cross-origin = loaded OK
      - Timer fallback: after 4 s the fallback is already showing (it's the default bg) */
+  function detectIframe(iframe) {
+    try {
+      const body = iframe.contentDocument?.body;
+      if (body && body.innerText.trim().length > 10) {
+        iframe.classList.add('iframe-ok');
+        return true;
+      }
+    } catch (_) {
+      // SecurityError = cross-origin content → loaded successfully
+      iframe.classList.add('iframe-ok');
+      return true;
+    }
+    return false;
+  }
+
   hsEls.forEach(hs => {
     const iframe = $('iframe', hs);
     if (!iframe) return;
 
-    iframe.addEventListener('load', () => {
-      try {
-        // Accessible = same-origin; check if there's real content
-        const body = iframe.contentDocument?.body;
-        if (body && body.innerText.trim().length > 10) {
-          // Real same-origin content loaded
-          iframe.classList.add('iframe-ok');
-        }
-        // else: empty/blocked — keep fallback visible
-      } catch (_) {
-        // SecurityError = cross-origin content → loaded successfully
+    // Check if already loaded (listener attached after loader delay)
+    detectIframe(iframe);
+
+    iframe.addEventListener('load', () => detectIframe(iframe));
+
+    // Timeout fallback — force-show after 4s (these are our own GH Pages sites)
+    setTimeout(() => {
+      if (!iframe.classList.contains('iframe-ok')) {
         iframe.classList.add('iframe-ok');
       }
-    });
+    }, 4000);
   });
 
   /* Smooth scroll-down pan for the active slide */
@@ -573,21 +585,28 @@ function initWorkCards() {
     const ro = new ResizeObserver(scale);
     ro.observe(vp);
 
-    // Iframe detection
-    iframe.addEventListener('load', () => {
+    // Iframe detection — check immediately (may have loaded during loader)
+    function detect() {
       try {
         const body = iframe.contentDocument?.body;
         if (body && body.innerText.trim().length > 10) {
           iframe.classList.add('iframe-ok');
+          return;
         }
       } catch (_) {
-        // Cross-origin = loaded successfully
+        iframe.classList.add('iframe-ok');
+        return;
+      }
+    }
+    detect();
+    iframe.addEventListener('load', detect);
+
+    // Timeout fallback — force-show after 5s
+    setTimeout(() => {
+      if (!iframe.classList.contains('iframe-ok')) {
         iframe.classList.add('iframe-ok');
       }
-    });
-    iframe.addEventListener('error', () => {
-      // Network/CSP error — fallback already showing
-    });
+    }, 5000);
   });
 }
 
