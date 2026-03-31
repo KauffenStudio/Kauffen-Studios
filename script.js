@@ -96,28 +96,40 @@ function initCursor() {
 ═════════════════════════════════════════ */
 function runLoader(onDone) {
   const loader = $('#loader');
-  const bar    = $('#ldrBar');
-  const pct    = $('#ldrPct');
-  if (!loader) { onDone?.(); return; }
+  const lines  = $$('.ldr-line');
+  if (!loader || !lines.length) { onDone?.(); return; }
 
-  setTimeout(() => loader.classList.add('reveal'), 80);
-
-  let progress = 0;
-  const tick = setInterval(() => {
-    progress += Math.random() * 14 + 5;
-    if (progress >= 100) { progress = 100; clearInterval(tick); }
-    if (bar) bar.style.width = progress + '%';
-    if (pct) pct.textContent = Math.round(progress) + '%';
-
-    if (progress === 100) {
-      setTimeout(() => {
-        gsap.to(loader, {
-          yPercent: -100, duration: 1, ease: 'power4.inOut',
-          onComplete: () => { loader.remove(); onDone?.(); }
-        });
-      }, 350);
+  const tl = gsap.timeline({
+    onComplete: () => {
+      gsap.to(loader, {
+        yPercent: -100, duration: 1, ease: 'power4.inOut',
+        onComplete: () => { loader.remove(); onDone?.(); }
+      });
     }
-  }, 80);
+  });
+
+  lines.forEach((line, i) => {
+    const isFinal = line.classList.contains('ldr-line--final');
+    const holdDur = isFinal ? 1.2 : 0.6;
+
+    tl.to(line, {
+      opacity: 1,
+      clipPath: 'inset(0 0% 0 0)',
+      duration: 0.7,
+      ease: 'power3.out',
+    });
+
+    if (!isFinal) {
+      tl.to(line, {
+        opacity: 0,
+        y: -30,
+        duration: 0.4,
+        ease: 'power2.in',
+      }, `+=${holdDur}`);
+    } else {
+      tl.to({}, { duration: holdDur });
+    }
+  });
 }
 
 /* ════════════════════════════════════════
