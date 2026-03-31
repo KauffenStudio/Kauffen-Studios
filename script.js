@@ -117,17 +117,22 @@ function runLoader(onDone) {
     return w;
   }
 
+  // Set wordwrap dimensions from the actual rendered word
+  const wordH = wordEl.offsetHeight;
+  const wordW = wordEl.offsetWidth;
+  wordWrap.style.height = wordH + 'px';
+  wordWrap.style.width  = wordW + 'px';
+
   // Initial state: wipe covers the black box
   gsap.set(wipe, { xPercent: 0 });
-  gsap.set(wordEl, { yPercent: 0 });
-  wordWrap.style.width = wordEl.offsetWidth + 'px';
+  gsap.set(wordEl, { y: 0 });
 
   const tl = gsap.timeline();
 
   // Reveal: wipe slides right to show "We are designers."
   tl.to(wipe, { xPercent: 100, duration: 0.8, ease: EASE, delay: 0.4 });
 
-  // Hold "designers." so it's readable
+  // Hold "designers."
   tl.to({}, { duration: 2 });
 
   // Cycle through remaining words
@@ -137,20 +142,20 @@ function runLoader(onDone) {
     const isFinal   = (i === words.length - 1);
 
     // Current word slides up and out
-    tl.to(wordEl, { yPercent: -110, duration: 0.5, ease: EASE });
+    tl.to(wordEl, { y: -wordH, duration: 0.5, ease: EASE });
 
     // Swap text, position below, resize container
     tl.call(() => {
       wordEl.textContent = nextWord;
       if (isFinal) wordEl.style.fontStyle = 'italic';
     });
-    tl.set(wordEl, { yPercent: 110 });
+    tl.set(wordEl, { y: wordH });
     tl.to(wordWrap, { width: nextWidth, duration: 0.45, ease: EASE }, '<');
 
     // New word slides up into view
-    tl.to(wordEl, { yPercent: 0, duration: 0.5, ease: EASE });
+    tl.to(wordEl, { y: 0, duration: 0.5, ease: EASE });
 
-    // Hold so each word is readable
+    // Hold
     tl.to({}, { duration: isFinal ? 2.5 : 2 });
   }
 
@@ -160,7 +165,7 @@ function runLoader(onDone) {
   tl.set(final_, { opacity: 1 });
 
   // Hold final
-  tl.to({}, { duration: 0.6 });
+  tl.to({}, { duration: 1 });
 
   // Loader exits
   tl.to(loader, {
