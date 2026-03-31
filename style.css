@@ -611,41 +611,11 @@ iframe { border: none; display: block; }
 }
 .wc-wide .wc-vp { aspect-ratio: 21 / 9; }
 
-.wc-vp iframe {
+.wc-vp img {
   position: absolute; top: 0; left: 0;
-  width: 1440px; height: 5500px;
-  transform-origin: top left;
+  width: 100%;
   pointer-events: none; will-change: transform;
-  opacity: 1;
   z-index: 1;
-}
-
-/* Fallback always visible — shown behind iframe */
-.wc-fb {
-  position: absolute; inset: 0;
-  background: var(--bg-alt);
-  display: flex;
-  align-items: center; justify-content: center;
-  flex-direction: column; gap: .75rem;
-  overflow: hidden;
-  z-index: 0;
-}
-.wc-fb::before {
-  content: attr(data-letter);
-  position: absolute;
-  font-family: var(--f-disp); font-size: clamp(8rem, 28vw, 22rem);
-  font-weight: 700; letter-spacing: -.05em;
-  color: var(--ink); opacity: .04;
-  line-height: 1; pointer-events: none; user-select: none;
-}
-.fb-nm {
-  position: relative;
-  font-family: var(--f-disp); font-size: clamp(1.2rem, 3vw, 2rem);
-  font-weight: 400; color: var(--ink-mid);
-}
-.fb-u {
-  font-family: var(--f-ui); font-size: .65rem;
-  color: var(--ink-pale); letter-spacing: .06em;
 }
 
 /* Hover overlay */

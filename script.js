@@ -17,8 +17,6 @@ const SLIDES = [
   { num: '07', name: 'Clou Architects', url: 'https://clouarchitects.com' },
 ];
 
-const IFRAME_W   = 1440;
-const IFRAME_H   = 5500;
 const SLIDE_DUR  = 7500; // ms between slide changes
 
 /* ════════════════════════════════════════
@@ -481,65 +479,27 @@ function initMarqueeVelocity() {
 }
 
 /* ════════════════════════════════════════
-   WORK CARD IFRAMES — scale + fallback
+   WORK CARDS — no init needed (images)
 ═════════════════════════════════════════ */
-function initWorkCards() {
-  // Lazy-load iframes when cards approach viewport
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      const vp     = entry.target;
-      const iframe = $('iframe', vp);
-      if (!iframe) return;
-
-      const url = iframe.dataset.src;
-      if (url && !iframe.src) iframe.src = url;
-
-      observer.unobserve(vp);
-    });
-  }, { rootMargin: '300px 0px' });
-
-  $$('.wc-vp').forEach(vp => {
-    const iframe = $('iframe', vp);
-    if (!iframe) return;
-
-    function scale() {
-      const w = vp.offsetWidth || 300;
-      const s = w / IFRAME_W;
-      iframe.style.width  = IFRAME_W + 'px';
-      iframe.style.height = IFRAME_H + 'px';
-      gsap.set(iframe, { scaleX: s, scaleY: s, transformOrigin: 'top left' });
-    }
-    scale();
-
-    const ro = new ResizeObserver(scale);
-    ro.observe(vp);
-
-    // Only observe cards that haven't loaded yet (data-src)
-    if (iframe.dataset.src && !iframe.src) {
-      observer.observe(vp);
-    }
-  });
-}
+function initWorkCards() {}
 
 /* ════════════════════════════════════════
    WORK CARD SCROLL PAN — scroll-linked
-   iframe pan as card enters/exits viewport
+   image pan as card enters/exits viewport
 ═════════════════════════════════════════ */
 function initWorkScrollPan() {
   $$('.wc').forEach(card => {
-    const vp     = $('.wc-vp', card);
-    const iframe = $('iframe', vp);
-    if (!iframe || !vp) return;
+    const vp  = $('.wc-vp', card);
+    const img = $('img', vp);
+    if (!img || !vp) return;
 
     function getPanDistance() {
-      const scale  = vp.offsetWidth / IFRAME_W;
-      const visH   = vp.offsetHeight / scale;
-      const maxPan = Math.max(0, 5500 - visH);
-      return maxPan * 0.55;
+      const imgH = img.offsetHeight || img.naturalHeight;
+      const vpH  = vp.offsetHeight;
+      return Math.max(0, imgH - vpH);
     }
 
-    gsap.fromTo(iframe,
+    gsap.fromTo(img,
       { y: 0 },
       {
         y: () => -getPanDistance(),
