@@ -616,11 +616,9 @@ iframe { border: none; display: block; }
   width: 1440px; height: 5500px;
   transform-origin: top left;
   pointer-events: none; will-change: transform;
-  opacity: 0;
-  transition: opacity .8s ease;
+  opacity: 1;
   z-index: 1;
 }
-.wc-vp iframe.iframe-ok { opacity: 1; }
 
 /* Fallback always visible — shown behind iframe */
 .wc-fb {

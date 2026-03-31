@@ -484,31 +484,20 @@ function initMarqueeVelocity() {
    WORK CARD IFRAMES — scale + fallback
 ═════════════════════════════════════════ */
 function initWorkCards() {
+  // Lazy-load iframes when cards approach viewport
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (!entry.isIntersecting) return;
       const vp     = entry.target;
       const iframe = $('iframe', vp);
-      if (!iframe || iframe.src) return; // already loaded
+      if (!iframe) return;
 
-      // Set src to start loading
       const url = iframe.dataset.src;
-      if (url) iframe.src = url;
-
-      // Show iframe when loaded
-      iframe.addEventListener('load', () => {
-        iframe.classList.add('iframe-ok');
-      });
-      // Fallback: force show after 6s
-      setTimeout(() => {
-        if (!iframe.classList.contains('iframe-ok')) {
-          iframe.classList.add('iframe-ok');
-        }
-      }, 6000);
+      if (url && !iframe.src) iframe.src = url;
 
       observer.unobserve(vp);
     });
-  }, { rootMargin: '200px 0px' }); // start loading 200px before entering viewport
+  }, { rootMargin: '300px 0px' });
 
   $$('.wc-vp').forEach(vp => {
     const iframe = $('iframe', vp);
@@ -518,7 +507,7 @@ function initWorkCards() {
       const w = vp.offsetWidth || 300;
       const s = w / IFRAME_W;
       iframe.style.width  = IFRAME_W + 'px';
-      iframe.style.height = '5500px';
+      iframe.style.height = IFRAME_H + 'px';
       gsap.set(iframe, { scaleX: s, scaleY: s, transformOrigin: 'top left' });
     }
     scale();
@@ -526,8 +515,10 @@ function initWorkCards() {
     const ro = new ResizeObserver(scale);
     ro.observe(vp);
 
-    // Observe for lazy loading
-    observer.observe(vp);
+    // Only observe cards that haven't loaded yet (data-src)
+    if (iframe.dataset.src && !iframe.src) {
+      observer.observe(vp);
+    }
   });
 }
 
