@@ -347,26 +347,25 @@ iframe { border: none; display: block; }
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(100px);
-  opacity: .15;
+  filter: blur(120px);
   will-change: transform;
 }
 .orb-1 {
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(247,244,239,.6), transparent 70%);
-  top: -10%; left: -5%;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(247,244,239,.35), transparent 70%);
+  top: -15%; left: -10%;
   animation: orbFloat1 20s ease-in-out infinite;
 }
 .orb-2 {
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(200,180,150,.5), transparent 70%);
-  bottom: -15%; right: -10%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(200,180,150,.3), transparent 70%);
+  bottom: -20%; right: -10%;
   animation: orbFloat2 25s ease-in-out infinite;
 }
 .orb-3 {
-  width: 350px; height: 350px;
-  background: radial-gradient(circle, rgba(247,244,239,.4), transparent 70%);
-  top: 40%; left: 50%;
+  width: 450px; height: 450px;
+  background: radial-gradient(circle, rgba(247,244,239,.25), transparent 70%);
+  top: 35%; left: 45%;
   animation: orbFloat3 18s ease-in-out infinite;
 }
 
