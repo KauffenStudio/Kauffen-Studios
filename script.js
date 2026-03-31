@@ -125,10 +125,10 @@ function runLoader(onDone) {
   const tl = gsap.timeline();
 
   // Reveal: wipe slides right to show "We are designers."
-  tl.to(wipe, { xPercent: 100, duration: 0.6, ease: EASE, delay: 0.3 });
+  tl.to(wipe, { xPercent: 100, duration: 0.8, ease: EASE, delay: 0.4 });
 
-  // Hold
-  tl.to({}, { duration: 0.6 });
+  // Hold "designers." so it's readable
+  tl.to({}, { duration: 1.2 });
 
   // Cycle through remaining words
   for (let i = 1; i < words.length; i++) {
@@ -137,7 +137,7 @@ function runLoader(onDone) {
     const isFinal   = (i === words.length - 1);
 
     // Current word slides up and out
-    tl.to(wordEl, { yPercent: -110, duration: 0.4, ease: EASE });
+    tl.to(wordEl, { yPercent: -110, duration: 0.5, ease: EASE });
 
     // Swap text, position below, resize container
     tl.call(() => {
@@ -145,13 +145,13 @@ function runLoader(onDone) {
       if (isFinal) wordEl.style.fontStyle = 'italic';
     });
     tl.set(wordEl, { yPercent: 110 });
-    tl.to(wordWrap, { width: nextWidth, duration: 0.35, ease: EASE }, '<');
+    tl.to(wordWrap, { width: nextWidth, duration: 0.45, ease: EASE }, '<');
 
     // New word slides up into view
-    tl.to(wordEl, { yPercent: 0, duration: 0.4, ease: EASE });
+    tl.to(wordEl, { yPercent: 0, duration: 0.5, ease: EASE });
 
-    // Hold
-    tl.to({}, { duration: isFinal ? 0.8 : 0.6 });
+    // Hold so each word is readable
+    tl.to({}, { duration: isFinal ? 1.4 : 1.2 });
   }
 
   // Final transition: wipe covers black box, show "We are Kauffen." in dark on cream
