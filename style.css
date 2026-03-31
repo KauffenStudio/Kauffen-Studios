@@ -808,7 +808,6 @@ iframe { border: none; display: block; }
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 2rem; align-content: start;
 }
-.stat {}
 .sv {
   display: block;
   font-family: var(--f-disp);
@@ -915,10 +914,6 @@ iframe { border: none; display: block; }
 }
 
 /* ════════════════════════════════════════
-   BUTTONS — general
-═════════════════════════════════════════ */
-
-/* ════════════════════════════════════════
    RESPONSIVE
 ═════════════════════════════════════════ */
 @media (max-width: 900px) {
@@ -934,15 +929,25 @@ iframe { border: none; display: block; }
 }
 @media (max-width: 600px) {
   .hero-foot { flex-direction: column; align-items: flex-start; }
-  .hero-top { flex-direction: column; align-items: flex-start; gap: .5rem; }
   .work-hdr { flex-direction: column; align-items: flex-start; }
   .svc-hdr { flex-direction: column; align-items: flex-start; }
   .ft-top { flex-direction: column; align-items: flex-start; }
   .abt-right { grid-template-columns: repeat(2, 1fr); }
   .ct-ch { flex-direction: row; }
+  .h-dots { bottom: 24px; gap: .45rem; }
+  .h-proj-info { bottom: 6px; font-size: .5rem; gap: .4rem; }
 }
 
 /* ════════════════════════════════════════
-   SCROLL PROGRESS DARK/LIGHT ADAPT
+   REDUCED MOTION
 ═════════════════════════════════════════ */
-/* when in light sections, progress bar turns dark */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .hs { transition: none; }
+  .mq-track { animation: none; }
+}

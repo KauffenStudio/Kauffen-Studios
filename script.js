@@ -18,9 +18,8 @@ const SLIDES = [
 ];
 
 const IFRAME_W   = 1440;
-const IFRAME_H   = 6000;
+const IFRAME_H   = 5500;
 const SLIDE_DUR  = 7500; // ms between slide changes
-const PAN_DUR    = 7;    // seconds for the scroll-down animation
 
 /* ════════════════════════════════════════
    CURSOR — init immediately so it works
@@ -467,10 +466,16 @@ function initScramble() {
 function initMarqueeVelocity() {
   const tracks = $$('.mq-track');
   const base   = [28, 22];
+  let rafId    = null;
+  let lastV    = 0;
   lenis?.on('scroll', ({ velocity }) => {
-    const v = Math.abs(velocity || 0);
-    tracks.forEach((t, i) => {
-      t.style.animationDuration = Math.max(base[i] - v * 2, 6) + 's';
+    lastV = Math.abs(velocity || 0);
+    if (rafId) return;
+    rafId = requestAnimationFrame(() => {
+      tracks.forEach((t, i) => {
+        t.style.animationDuration = Math.max(base[i] - lastV * 2, 6) + 's';
+      });
+      rafId = null;
     });
   });
 }
