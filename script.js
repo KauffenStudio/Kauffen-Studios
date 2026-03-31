@@ -95,56 +95,76 @@ function initCursor() {
    LOADER
 ═════════════════════════════════════════ */
 function runLoader(onDone) {
-  const loader  = $('#loader');
-  const box     = $('#ldrBox');
-  const wipe    = $('#ldrWipe');
-  const word    = $('#ldrWord');
-  const final_  = $('#ldrFinal');
+  const loader   = $('#loader');
+  const box      = $('#ldrBox');
+  const wipe     = $('#ldrWipe');
+  const wordEl   = $('#ldrWord');
+  const wordWrap = $('#ldrWordWrap');
+  const final_   = $('#ldrFinal');
   if (!loader) { onDone?.(); return; }
 
-  const words = ['designers.', 'developers.'];
+  const words = ['designers.', 'developers.', 'Kauffen.'];
+  const EASE  = 'power3.inOut';
+
+  // Measure each word's width for smooth container resize
+  function measureWord(text) {
+    const tmp = wordEl.cloneNode();
+    tmp.textContent = text;
+    tmp.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap';
+    box.appendChild(tmp);
+    const w = tmp.offsetWidth;
+    tmp.remove();
+    return w;
+  }
+
+  // Initial state: wipe covers the black box
+  gsap.set(wipe, { xPercent: 0 });
+  gsap.set(wordEl, { yPercent: 0 });
+  wordWrap.style.width = wordEl.offsetWidth + 'px';
 
   const tl = gsap.timeline();
 
-  // Start with wipe covering the black box (hidden)
-  gsap.set(wipe, { xPercent: 0 });
+  // Reveal: wipe slides right to show "We are designers."
+  tl.to(wipe, { xPercent: 100, duration: 0.6, ease: EASE, delay: 0.3 });
 
-  // Wipe reveals the black box (slides right to expose text)
-  tl.to(wipe, { xPercent: 100, duration: 0.8, ease: 'power3.inOut' });
+  // Hold
+  tl.to({}, { duration: 0.6 });
 
-  // Hold first word
-  tl.to({}, { duration: 0.7 });
+  // Cycle through remaining words
+  for (let i = 1; i < words.length; i++) {
+    const nextWord  = words[i];
+    const nextWidth = measureWord(nextWord);
+    const isFinal   = (i === words.length - 1);
 
-  // Cycle through words
-  words.forEach((w, i) => {
-    if (i === 0) return; // skip first word (already showing "designers.")
+    // Current word slides up and out
+    tl.to(wordEl, { yPercent: -110, duration: 0.4, ease: EASE });
 
-    // Wipe covers text (slides back left)
-    tl.to(wipe, { xPercent: 0, duration: 0.5, ease: 'power3.inOut' });
+    // Swap text, position below, resize container
+    tl.call(() => {
+      wordEl.textContent = nextWord;
+      if (isFinal) wordEl.style.fontStyle = 'italic';
+    });
+    tl.set(wordEl, { yPercent: 110 });
+    tl.to(wordWrap, { width: nextWidth, duration: 0.35, ease: EASE }, '<');
 
-    // Swap word while hidden
-    tl.call(() => { word.textContent = w; });
-
-    // Wipe reveals again
-    tl.to(wipe, { xPercent: 100, duration: 0.5, ease: 'power3.inOut' });
+    // New word slides up into view
+    tl.to(wordEl, { yPercent: 0, duration: 0.4, ease: EASE });
 
     // Hold
-    tl.to({}, { duration: 0.7 });
-  });
+    tl.to({}, { duration: isFinal ? 0.8 : 0.6 });
+  }
 
-  // Wipe covers text one last time
-  tl.to(wipe, { xPercent: 0, duration: 0.5, ease: 'power3.inOut' });
-
-  // Hide black box, show final "We are Kauffen." in dark text on cream
-  tl.to(box, { opacity: 0, duration: 0.01 });
-  tl.to(final_, { opacity: 1, duration: 0.01 });
+  // Final transition: wipe covers black box, show "We are Kauffen." in dark on cream
+  tl.to(wipe, { xPercent: 0, duration: 0.5, ease: EASE });
+  tl.set(box, { opacity: 0 });
+  tl.set(final_, { opacity: 1 });
 
   // Hold final
-  tl.to({}, { duration: 1.0 });
+  tl.to({}, { duration: 0.6 });
 
-  // Fade out loader to reveal the site
+  // Loader exits
   tl.to(loader, {
-    opacity: 0, duration: 0.8, ease: 'power2.inOut',
+    opacity: 0, duration: 0.7, ease: 'power2.inOut',
     onComplete: () => { loader.remove(); onDone?.(); }
   });
 }
