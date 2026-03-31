@@ -699,6 +699,47 @@ iframe { border: none; display: block; }
 .about {
   padding: clamp(5rem, 10vw, 9rem) var(--gut);
 }
+
+/* Definition block */
+.abt-definition {
+  max-width: var(--max); margin: 0 auto;
+  text-align: center;
+  padding-bottom: clamp(4rem, 8vw, 7rem);
+  margin-bottom: clamp(4rem, 8vw, 7rem);
+  border-bottom: 1px solid var(--ink-line);
+}
+.abt-def-word {
+  font-family: var(--f-disp);
+  font-size: clamp(4rem, 10vw, 9rem);
+  font-weight: 400; letter-spacing: -.03em;
+  line-height: 1; margin-bottom: .6rem;
+}
+.abt-def-pron {
+  display: block;
+  font-family: var(--f-ui);
+  font-size: clamp(.9rem, 1.4vw, 1.1rem);
+  font-weight: 400;
+  color: var(--ink-muted);
+  letter-spacing: .04em;
+  margin-bottom: 1.2rem;
+}
+.abt-def-type {
+  display: block;
+  font-family: var(--f-ui);
+  font-size: clamp(.6rem, .9vw, .7rem);
+  font-weight: 600; letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--ink-pale);
+  margin-bottom: 1.5rem;
+}
+.abt-def-meaning {
+  font-family: var(--f-disp);
+  font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+  font-weight: 400; font-style: italic;
+  color: var(--ink-mid);
+  letter-spacing: .01em;
+}
+
 .abt-inner {
   max-width: var(--max); margin: 0 auto;
   display: grid; grid-template-columns: 1fr 1fr;

@@ -319,7 +319,25 @@ function initReveals() {
     scrollTrigger: { trigger: '.svc-list', start: 'top 80%' }
   });
 
-  // About
+  // About — definition block
+  gsap.fromTo('.abt-def-word', { opacity: 0, y: 30 }, {
+    opacity: 1, y: 0, duration: 1, ease: 'power4.out',
+    scrollTrigger: { trigger: '.abt-definition', start: 'top 80%' }
+  });
+  gsap.fromTo('.abt-def-pron', { opacity: 0 }, {
+    opacity: 1, duration: .6,
+    scrollTrigger: { trigger: '.abt-definition', start: 'top 78%' }
+  });
+  gsap.fromTo('.abt-def-type', { opacity: 0, y: 8 }, {
+    opacity: 1, y: 0, duration: .6,
+    scrollTrigger: { trigger: '.abt-definition', start: 'top 75%' }
+  });
+  gsap.fromTo('.abt-def-meaning', { opacity: 0, y: 12 }, {
+    opacity: 1, y: 0, duration: .8,
+    scrollTrigger: { trigger: '.abt-definition', start: 'top 72%' }
+  });
+
+  // About — studio section
   gsap.set('.abt-stmt .ri', { y: '110%' });
   gsap.fromTo('.abt-inner .eyebrow', { opacity: 0, y: 8 }, {
     opacity: 1, y: 0, duration: .7,
