@@ -128,7 +128,7 @@ function runLoader(onDone) {
   tl.to(wipe, { xPercent: 100, duration: 0.8, ease: EASE, delay: 0.4 });
 
   // Hold "designers." so it's readable
-  tl.to({}, { duration: 1.2 });
+  tl.to({}, { duration: 2 });
 
   // Cycle through remaining words
   for (let i = 1; i < words.length; i++) {
@@ -151,7 +151,7 @@ function runLoader(onDone) {
     tl.to(wordEl, { yPercent: 0, duration: 0.5, ease: EASE });
 
     // Hold so each word is readable
-    tl.to({}, { duration: isFinal ? 1.4 : 1.2 });
+    tl.to({}, { duration: isFinal ? 2.5 : 2 });
   }
 
   // Final transition: wipe covers black box, show "We are Kauffen." in dark on cream
