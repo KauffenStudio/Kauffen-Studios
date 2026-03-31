@@ -97,7 +97,6 @@ function initCursor() {
 function runLoader(onDone) {
   const loader   = $('#loader');
   const box      = $('#ldrBox');
-  const wipe     = $('#ldrWipe');
   const wordEl   = $('#ldrWord');
   const wordWrap = $('#ldrWordWrap');
   const final_   = $('#ldrFinal');
@@ -106,7 +105,7 @@ function runLoader(onDone) {
   const words = ['designers.', 'developers.', 'Kauffen.'];
   const EASE  = 'power3.inOut';
 
-  // Measure each word's width for smooth container resize
+  // Measure word width off-screen
   function measureWord(text) {
     const tmp = wordEl.cloneNode();
     tmp.textContent = text;
@@ -117,20 +116,16 @@ function runLoader(onDone) {
     return w;
   }
 
-  // Set wordwrap dimensions from the actual rendered word
+  // Set wordwrap to exact size of first word
   const wordH = wordEl.offsetHeight;
-  const wordW = wordEl.offsetWidth;
   wordWrap.style.height = wordH + 'px';
-  wordWrap.style.width  = wordW + 'px';
-
-  // Initial state: wipe covers the black box
-  gsap.set(wipe, { xPercent: 0 });
+  wordWrap.style.width  = wordEl.offsetWidth + 'px';
   gsap.set(wordEl, { y: 0 });
 
   const tl = gsap.timeline();
 
-  // Reveal: wipe slides right to show "We are designers."
-  tl.to(wipe, { xPercent: 100, duration: 0.8, ease: EASE, delay: 0.4 });
+  // Black box fades in
+  tl.to(box, { opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.3 });
 
   // Hold "designers."
   tl.to({}, { duration: 2 });
@@ -141,33 +136,32 @@ function runLoader(onDone) {
     const nextWidth = measureWord(nextWord);
     const isFinal   = (i === words.length - 1);
 
-    // Current word slides up and out
+    // Current word slides up and out of the container
     tl.to(wordEl, { y: -wordH, duration: 0.5, ease: EASE });
 
-    // Swap text, position below, resize container
+    // Swap text while hidden above, reposition below
     tl.call(() => {
       wordEl.textContent = nextWord;
       if (isFinal) wordEl.style.fontStyle = 'italic';
     });
     tl.set(wordEl, { y: wordH });
-    tl.to(wordWrap, { width: nextWidth, duration: 0.45, ease: EASE }, '<');
 
-    // New word slides up into view
-    tl.to(wordEl, { y: 0, duration: 0.5, ease: EASE });
+    // Resize container width + slide new word into place simultaneously
+    tl.to(wordWrap, { width: nextWidth, duration: 0.5, ease: EASE }, '<0.1');
+    tl.to(wordEl, { y: 0, duration: 0.5, ease: EASE }, '<');
 
     // Hold
     tl.to({}, { duration: isFinal ? 2.5 : 2 });
   }
 
-  // Final transition: wipe covers black box, show "We are Kauffen." in dark on cream
-  tl.to(wipe, { xPercent: 0, duration: 0.5, ease: EASE });
-  tl.set(box, { opacity: 0 });
-  tl.set(final_, { opacity: 1 });
+  // Fade out black box, fade in final "We are Kauffen." in dark on cream
+  tl.to(box, { opacity: 0, duration: 0.4, ease: 'power2.inOut' });
+  tl.to(final_, { opacity: 1, duration: 0.4, ease: 'power2.inOut' }, '<0.1');
 
   // Hold final
-  tl.to({}, { duration: 1 });
+  tl.to({}, { duration: 1.2 });
 
-  // Loader exits
+  // Loader fades out to reveal the site
   tl.to(loader, {
     opacity: 0, duration: 0.7, ease: 'power2.inOut',
     onComplete: () => { loader.remove(); onDone?.(); }
