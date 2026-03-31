@@ -242,92 +242,7 @@ function initHeroSlideshow() {
 
   let current = 0;
   let timer   = null;
-  let tweens  = [];
   let paused  = false;
-
-  /* Scale each iframe with GSAP so subsequent
-     translateY tweens don't clobber the scale */
-  function scaleIframe(hs) {
-    const iframe = $('iframe', hs);
-    if (!iframe) return;
-    const w     = hs.offsetWidth || window.innerWidth;
-    const scale = w / IFRAME_W;
-    // GSAP owns the full transform
-    iframe.style.width  = IFRAME_W + 'px';
-    iframe.style.height = IFRAME_H + 'px';
-    gsap.set(iframe, {
-      scaleX: scale, scaleY: scale,
-      transformOrigin: 'top left',
-      y: 0,
-    });
-  }
-
-  hsEls.forEach(hs => scaleIframe(hs));
-  window.addEventListener('resize', () => hsEls.forEach(hs => scaleIframe(hs)));
-
-  /* Iframe load detection.
-     - If load fires and contentDocument is accessible → blocked (same-origin but empty)
-     - If SecurityError is thrown → cross-origin = loaded OK
-     - Timer fallback: after 4 s the fallback is already showing (it's the default bg) */
-  function detectIframe(iframe) {
-    try {
-      const body = iframe.contentDocument?.body;
-      if (body && body.innerText.trim().length > 10) {
-        iframe.classList.add('iframe-ok');
-        return true;
-      }
-    } catch (_) {
-      // SecurityError = cross-origin content → loaded successfully
-      iframe.classList.add('iframe-ok');
-      return true;
-    }
-    return false;
-  }
-
-  hsEls.forEach(hs => {
-    const iframe = $('iframe', hs);
-    if (!iframe) return;
-
-    // Check if already loaded (listener attached after loader delay)
-    detectIframe(iframe);
-
-    iframe.addEventListener('load', () => detectIframe(iframe));
-
-    // Timeout fallback — force-show after 4s (these are our own GH Pages sites)
-    setTimeout(() => {
-      if (!iframe.classList.contains('iframe-ok')) {
-        iframe.classList.add('iframe-ok');
-      }
-    }, 4000);
-  });
-
-  /* Smooth scroll-down pan for the active slide */
-  function startPan(idx) {
-    const hs     = hsEls[idx];
-    const iframe = $('iframe', hs);
-    if (!iframe) return;
-
-    const scale = (hs.offsetWidth || window.innerWidth) / IFRAME_W;
-    const visH  = window.innerHeight / scale;
-    const maxTY = Math.max(0, IFRAME_H - visH);
-    const panTo = maxTY * 0.38; // pan through ~38% of total page height
-
-    // Reset to top first, then pan down
-    gsap.set(iframe, { y: 0 });
-    tweens[idx] = gsap.to(iframe, {
-      y: -panTo,
-      duration: PAN_DUR,
-      ease: 'power1.inOut',
-    });
-  }
-
-  function killPan(idx) {
-    tweens[idx]?.kill?.();
-    tweens[idx] = null;
-    // Reset iframe position
-    const iframe = $('iframe', hsEls[idx]);
-    if (iframe) gsap.set(iframe, { y: 0 });
-  }
 
   /* Timer progress bar */
   let timerRAF   = null;
@@ -348,9 +263,8 @@ function initHeroSlideshow() {
   /* Activate a slide */
   function goTo(idx) {
     const next = ((idx % SLIDES.length) + SLIDES.length) % SLIDES.length;
-    if (next === current && timer !== null) return; // don't retrigger same slide
+    if (next === current && timer !== null) return;
 
-    killPan(current);
     clearTimeout(timer);
 
     hsEls[current].classList.remove('active');
@@ -373,9 +287,7 @@ function initHeroSlideshow() {
       }});
     }
 
-    startPan(current);
     startTimer();
-
     if (!paused) timer = setTimeout(() => goTo(current + 1), SLIDE_DUR);
   }
 
@@ -383,9 +295,8 @@ function initHeroSlideshow() {
   dots.forEach(dot => {
     dot.addEventListener('click', () => {
       const idx = parseInt(dot.dataset.goto);
-      killPan(current);
       clearTimeout(timer);
-      current = -1; // force re-activate
+      current = -1;
       goTo(idx);
     });
   });
@@ -568,9 +479,34 @@ function initMarqueeVelocity() {
    WORK CARD IFRAMES — scale + fallback
 ═════════════════════════════════════════ */
 function initWorkCards() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const vp     = entry.target;
+      const iframe = $('iframe', vp);
+      if (!iframe || iframe.src) return; // already loaded
+
+      // Set src to start loading
+      const url = iframe.dataset.src;
+      if (url) iframe.src = url;
+
+      // Show iframe when loaded
+      iframe.addEventListener('load', () => {
+        iframe.classList.add('iframe-ok');
+      });
+      // Fallback: force show after 6s
+      setTimeout(() => {
+        if (!iframe.classList.contains('iframe-ok')) {
+          iframe.classList.add('iframe-ok');
+        }
+      }, 6000);
+
+      observer.unobserve(vp);
+    });
+  }, { rootMargin: '200px 0px' }); // start loading 200px before entering viewport
+
   $$('.wc-vp').forEach(vp => {
     const iframe = $('iframe', vp);
-    const fb     = $('.wc-fb', vp);
     if (!iframe) return;
 
     function scale() {
@@ -585,28 +521,8 @@ function initWorkCards() {
     const ro = new ResizeObserver(scale);
     ro.observe(vp);
 
-    // Iframe detection — check immediately (may have loaded during loader)
-    function detect() {
-      try {
-        const body = iframe.contentDocument?.body;
-        if (body && body.innerText.trim().length > 10) {
-          iframe.classList.add('iframe-ok');
-          return;
-        }
-      } catch (_) {
-        iframe.classList.add('iframe-ok');
-        return;
-      }
-    }
-    detect();
-    iframe.addEventListener('load', detect);
-
-    // Timeout fallback — force-show after 5s
-    setTimeout(() => {
-      if (!iframe.classList.contains('iframe-ok')) {
-        iframe.classList.add('iframe-ok');
-      }
-    }, 5000);
+    // Observe for lazy loading
+    observer.observe(vp);
   });
 }
 

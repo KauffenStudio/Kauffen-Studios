@@ -357,18 +357,7 @@ iframe { border: none; display: block; }
 }
 .hs.active { opacity: 1; }
 
-.hs iframe {
-  position: absolute; top: 0; left: 0;
-  width: 1440px; height: 6000px;
-  transform-origin: top left;
-  pointer-events: none;
-  will-change: transform;
-  opacity: 0; /* hidden until cross-origin load confirmed */
-  transition: opacity .8s ease;
-}
-.hs iframe.iframe-ok { opacity: 1; }
-
-/* Fallback is always visible by default — it IS the slide background */
+/* Slide background */
 .hs-fb {
   position: absolute; inset: 0;
   background: var(--dark-2);
