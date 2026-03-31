@@ -114,10 +114,10 @@ function runLoader(onDone) {
   const tl = gsap.timeline();
 
   // Black box fades in
-  tl.to(box, { opacity: 1, duration: 0.6, ease: 'power2.out', delay: 0.3 });
+  tl.to(box, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.2 });
 
   // Hold "designers."
-  tl.to({}, { duration: 2 });
+  tl.to({}, { duration: 0.8 });
 
   // Cycle through remaining words
   for (let i = 1; i < words.length; i++) {
@@ -125,30 +125,30 @@ function runLoader(onDone) {
     const nextWidth = measureWord(nextWord);
     const isFinal   = (i === words.length - 1);
 
-    // Current word slides up and out of the container
-    tl.to(wordEl, { y: -wordH, duration: 0.5, ease: EASE });
+    // Current word slides up and out
+    tl.to(wordEl, { y: -wordH, duration: 0.35, ease: EASE });
 
-    // Swap text while hidden above, reposition below
+    // Swap text, reposition below
     tl.call(() => {
       wordEl.textContent = nextWord;
       if (isFinal) wordEl.style.fontStyle = 'italic';
     });
     tl.set(wordEl, { y: wordH });
 
-    // Resize container width + slide new word into place simultaneously
-    tl.to(wordWrap, { width: nextWidth, duration: 0.5, ease: EASE }, '<0.1');
-    tl.to(wordEl, { y: 0, duration: 0.5, ease: EASE }, '<');
+    // Resize + slide in simultaneously
+    tl.to(wordWrap, { width: nextWidth, duration: 0.35, ease: EASE }, '<0.05');
+    tl.to(wordEl, { y: 0, duration: 0.35, ease: EASE }, '<');
 
     // Hold
-    tl.to({}, { duration: isFinal ? 2.5 : 2 });
+    tl.to({}, { duration: isFinal ? 1.2 : 0.8 });
   }
 
-  // Fade out black box, fade in final "We are Kauffen." in dark on cream
-  tl.to(box, { opacity: 0, duration: 0.4, ease: 'power2.inOut' });
-  tl.to(final_, { opacity: 1, duration: 0.4, ease: 'power2.inOut' }, '<0.1');
+  // Fade to final
+  tl.to(box, { opacity: 0, duration: 0.3, ease: 'power2.inOut' });
+  tl.to(final_, { opacity: 1, duration: 0.3, ease: 'power2.inOut' }, '<0.05');
 
   // Hold final
-  tl.to({}, { duration: 1.2 });
+  tl.to({}, { duration: 0.8 });
 
   // Loader fades out to reveal the site
   tl.to(loader, {
