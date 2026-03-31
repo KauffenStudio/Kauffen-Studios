@@ -113,11 +113,11 @@ function runLoader(onDone) {
 
   const tl = gsap.timeline();
 
-  // Black box fades in
-  tl.to(box, { opacity: 1, duration: 0.4, ease: 'power2.out', delay: 0.2 });
+  // Black box snaps in
+  tl.to(box, { opacity: 1, duration: 0.25, ease: 'power2.out', delay: 0.1 });
 
   // Hold "designers."
-  tl.to({}, { duration: 0.8 });
+  tl.to({}, { duration: 0.45 });
 
   // Cycle through remaining words
   for (let i = 1; i < words.length; i++) {
@@ -125,30 +125,30 @@ function runLoader(onDone) {
     const nextWidth = measureWord(nextWord);
     const isFinal   = (i === words.length - 1);
 
-    // Current word slides up and out
-    tl.to(wordEl, { y: -wordH, duration: 0.35, ease: EASE });
+    // Word slides up and out
+    tl.to(wordEl, { y: -wordH, duration: 0.25, ease: 'power4.inOut' });
 
-    // Swap text, reposition below
+    // Swap + reposition
     tl.call(() => {
       wordEl.textContent = nextWord;
       if (isFinal) wordEl.style.fontStyle = 'italic';
     });
     tl.set(wordEl, { y: wordH });
 
-    // Resize + slide in simultaneously
-    tl.to(wordWrap, { width: nextWidth, duration: 0.35, ease: EASE }, '<0.05');
-    tl.to(wordEl, { y: 0, duration: 0.35, ease: EASE }, '<');
+    // Resize + slide in
+    tl.to(wordWrap, { width: nextWidth, duration: 0.25, ease: 'power4.inOut' }, '<');
+    tl.to(wordEl, { y: 0, duration: 0.25, ease: 'power4.inOut' }, '<');
 
     // Hold
-    tl.to({}, { duration: isFinal ? 1.2 : 0.8 });
+    tl.to({}, { duration: isFinal ? 0.7 : 0.45 });
   }
 
-  // Fade to final
-  tl.to(box, { opacity: 0, duration: 0.3, ease: 'power2.inOut' });
-  tl.to(final_, { opacity: 1, duration: 0.3, ease: 'power2.inOut' }, '<0.05');
+  // Snap to final
+  tl.to(box, { opacity: 0, duration: 0.2, ease: 'power2.inOut' });
+  tl.to(final_, { opacity: 1, duration: 0.2, ease: 'power2.inOut' }, '<');
 
   // Hold final
-  tl.to({}, { duration: 0.8 });
+  tl.to({}, { duration: 0.5 });
 
   // Loader fades out to reveal the site
   tl.to(loader, {
