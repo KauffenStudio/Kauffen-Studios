@@ -409,8 +409,9 @@ iframe { border: none; display: block; }
 .hi-em { font-style: italic; opacity: .65; }
 
 .hero-foot {
-  display: flex; align-items: flex-end;
+  display: flex; align-items: center;
   justify-content: space-between; gap: 2rem; flex-wrap: wrap;
+  margin-top: clamp(2rem, 4vw, 3.5rem);
 }
 .hero-sub {
   font-family: var(--f-ui); font-size: clamp(.88rem, 1.2vw, 1rem);
