@@ -331,7 +331,7 @@ iframe { border: none; display: block; }
   position: relative;
   height: 100svh; min-height: 620px;
   display: flex; flex-direction: column; justify-content: flex-end;
-  padding: var(--nav-h) var(--gut) clamp(3rem, 7vw, 5.5rem);
+  padding: calc(var(--nav-h) + 2rem) var(--gut) clamp(3rem, 7vw, 5.5rem);
   color: var(--cream);
   overflow: hidden;
 }
