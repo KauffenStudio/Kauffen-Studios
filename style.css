@@ -704,8 +704,8 @@ iframe { border: none; display: block; }
 /* Definition block */
 .abt-definition {
   max-width: var(--max); margin: 0 auto;
-  padding-bottom: clamp(2rem, 4vw, 3rem);
-  margin-bottom: clamp(2rem, 4vw, 3rem);
+  padding-bottom: clamp(1rem, 2vw, 1.5rem);
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
   border-bottom: 1px solid rgba(10,9,7,.12);
   display: flex;
   align-items: baseline;
