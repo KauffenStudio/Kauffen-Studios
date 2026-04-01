@@ -778,6 +778,7 @@ iframe { border: none; display: block; }
 
 .abt-right {
   display: grid; grid-template-columns: 1fr 1fr;
+  align-self: center;
   gap: 2rem; align-content: start;
 }
 .sv {
