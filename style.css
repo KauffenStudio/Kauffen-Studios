@@ -797,7 +797,7 @@ iframe { border: none; display: block; }
 ═════════════════════════════════════════ */
 .contact {
   background: var(--dark); color: var(--cream);
-  padding: clamp(6rem, 12vw, 11rem) var(--gut);
+  padding: clamp(3.5rem, 7vw, 6rem) var(--gut);
 }
 .ct-inner { max-width: var(--max); margin: 0 auto; }
 
