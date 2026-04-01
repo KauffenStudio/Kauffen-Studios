@@ -390,6 +390,7 @@ iframe { border: none; display: block; }
   position: relative; z-index: 2;
   width: 100%; max-width: var(--max); margin: 0 auto;
   display: flex; flex-direction: column; gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin-top: calc(var(--nav-h) + 1rem);
 }
 
 .hero-eyebrow {
