@@ -713,7 +713,9 @@ iframe { border: none; display: block; }
   align-items: baseline;
   justify-content: space-between;
   gap: 2rem;
-  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  padding-bottom: clamp(1.2rem, 2.5vw, 2rem);
+  margin-bottom: clamp(1.2rem, 2.5vw, 2rem);
+  border-bottom: 1px solid var(--ink-line);
 }
 .abt-def-word {
   font-family: var(--f-disp);
@@ -743,10 +745,11 @@ iframe { border: none; display: block; }
 }
 .abt-def-meaning {
   font-family: var(--f-disp);
-  font-size: clamp(1.6rem, 3.5vw, 3rem);
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
   font-weight: 400; font-style: italic;
-  color: var(--ink-mid);
+  color: var(--ink-pale);
   letter-spacing: .01em;
+  padding-top: .2rem;
 }
 
 .abt-inner {
