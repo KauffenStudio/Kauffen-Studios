@@ -488,7 +488,7 @@ iframe { border: none; display: block; }
    WORK
 ═════════════════════════════════════════ */
 .work {
-  padding: clamp(5rem, 10vw, 9rem) var(--gut);
+  padding: clamp(2.5rem, 5vw, 4rem) var(--gut);
   max-width: var(--max); margin: 0 auto;
 }
 
