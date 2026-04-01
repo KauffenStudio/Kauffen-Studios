@@ -706,50 +706,44 @@ iframe { border: none; display: block; }
   max-width: var(--max); margin: 0 auto;
   padding-bottom: clamp(4rem, 8vw, 7rem);
   margin-bottom: clamp(4rem, 8vw, 7rem);
-  border-bottom: 1px solid var(--ink-line);
-}
-.abt-def-top {
+  border-bottom: 1px solid rgba(10,9,7,.12);
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 2rem;
-  padding-bottom: clamp(1.2rem, 2.5vw, 2rem);
-  margin-bottom: clamp(1.2rem, 2.5vw, 2rem);
-  border-bottom: 1px solid var(--ink-line);
+  flex-wrap: wrap;
+}
+.abt-def-left {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(.8rem, 1.5vw, 1.5rem);
 }
 .abt-def-word {
   font-family: var(--f-disp);
-  font-size: clamp(4rem, 10vw, 9rem);
-  font-weight: 400; letter-spacing: -.03em;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 400; letter-spacing: -.02em;
   line-height: 1;
-}
-.abt-def-meta {
-  display: flex;
-  align-items: baseline;
-  gap: 1rem;
-  flex-shrink: 0;
 }
 .abt-def-pron {
   font-family: var(--f-ui);
-  font-size: clamp(.9rem, 1.4vw, 1.1rem);
+  font-size: clamp(.8rem, 1.1vw, .95rem);
   font-weight: 400;
   color: var(--ink-muted);
   letter-spacing: .04em;
 }
 .abt-def-type {
   font-family: var(--f-ui);
-  font-size: clamp(.6rem, .9vw, .7rem);
+  font-size: clamp(.55rem, .8vw, .65rem);
   font-weight: 600; letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--ink-pale);
 }
 .abt-def-meaning {
   font-family: var(--f-disp);
-  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
   font-weight: 400; font-style: italic;
-  color: var(--ink-pale);
+  color: var(--ink-muted);
   letter-spacing: .01em;
-  padding-top: .2rem;
 }
 
 .abt-inner {
