@@ -191,7 +191,7 @@ function initNav() {
   const nav = $('#nav');
   if (!nav) return;
 
-  const lightSections = ['.work', '.about'];
+  const lightSections = ['.work', '.testimonials', '.pricing', '.about'];
 
   ScrollTrigger.create({
     start: 'top -60',
@@ -360,6 +360,40 @@ function initReveals() {
     scrollTrigger: { trigger: '.abt-right', start: 'top 80%' }
   });
 
+  // Testimonials
+  gsap.set('.tst-h .ri', { y: '110%' });
+  gsap.to('.tst-h .ri', {
+    y: 0, duration: 1, ease: 'power4.out',
+    scrollTrigger: { trigger: '.tst-hdr', start: 'top 82%' }
+  });
+  gsap.fromTo('.tst-hdr .eyebrow', { opacity: 0, y: 8 }, {
+    opacity: 1, y: 0, duration: .7,
+    scrollTrigger: { trigger: '.tst-hdr', start: 'top 85%' }
+  });
+  gsap.fromTo('.tst-card', { opacity: 0, y: 30 }, {
+    opacity: 1, y: 0, duration: .8, stagger: .12, ease: 'power3.out',
+    scrollTrigger: { trigger: '.tst-grid', start: 'top 80%' }
+  });
+
+  // Pricing
+  gsap.set('.prc-h .ri', { y: '110%' });
+  gsap.to('.prc-h .ri', {
+    y: 0, duration: 1, ease: 'power4.out',
+    scrollTrigger: { trigger: '.prc-hdr', start: 'top 82%' }
+  });
+  gsap.fromTo('.prc-hdr .eyebrow', { opacity: 0, y: 8 }, {
+    opacity: 1, y: 0, duration: .7,
+    scrollTrigger: { trigger: '.prc-hdr', start: 'top 85%' }
+  });
+  gsap.fromTo('.prc-sub', { opacity: 0, y: 12 }, {
+    opacity: 1, y: 0, duration: .8,
+    scrollTrigger: { trigger: '.prc-sub', start: 'top 88%' }
+  });
+  gsap.fromTo('.prc-card', { opacity: 0, y: 30 }, {
+    opacity: 1, y: 0, duration: .8, stagger: .12, ease: 'power3.out',
+    scrollTrigger: { trigger: '.prc-grid', start: 'top 80%' }
+  });
+
   // Contact
   gsap.set('.ct-h .ri', { y: '110%' });
   gsap.to('.ct-h .ri', {
@@ -369,6 +403,14 @@ function initReveals() {
   gsap.fromTo('.ct-ch', { opacity: 0, y: 20 }, {
     opacity: 1, y: 0, duration: .7, stagger: .1,
     scrollTrigger: { trigger: '.ct-channels', start: 'top 85%' }
+  });
+  gsap.fromTo('.ct-form', { opacity: 0, y: 30 }, {
+    opacity: 1, y: 0, duration: .9,
+    scrollTrigger: { trigger: '.ct-form', start: 'top 85%' }
+  });
+  gsap.fromTo('.ct-magnet', { opacity: 0, y: 16 }, {
+    opacity: 1, y: 0, duration: .7,
+    scrollTrigger: { trigger: '.ct-magnet', start: 'top 90%' }
   });
 }
 
@@ -510,6 +552,46 @@ function initTilt() {
 
 
 /* ════════════════════════════════════════
+   PRICING TOGGLE
+═════════════════════════════════════════ */
+function initPricingToggle() {
+  const section = $('.pricing');
+  const sw = $('#prcSwitch');
+  const labels = $$('.prc-toggle-lbl');
+  const prices = $$('.prc-price[data-oneoff]');
+  if (!sw || !section) return;
+
+  let isMonthly = false;
+
+  function update() {
+    section.classList.toggle('monthly', isMonthly);
+    sw.classList.toggle('active', isMonthly);
+    labels.forEach(l => {
+      l.classList.toggle('prc-toggle-active',
+        (l.dataset.mode === 'monthly') === isMonthly
+      );
+    });
+    prices.forEach(p => {
+      const amount = p.querySelector('.prc-amount');
+      const from = p.querySelector('.prc-from');
+      if (isMonthly) {
+        amount.textContent = p.dataset.monthly;
+        from.textContent = 'From';
+      } else {
+        amount.textContent = p.dataset.oneoff;
+        from.textContent = 'From';
+      }
+    });
+  }
+
+  sw.addEventListener('click', () => { isMonthly = !isMonthly; update(); });
+  labels.forEach(l => l.addEventListener('click', () => {
+    isMonthly = l.dataset.mode === 'monthly';
+    update();
+  }));
+}
+
+/* ════════════════════════════════════════
    BOOT
 ═════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
@@ -532,6 +614,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initWorkCards();
     initWorkScrollPan();
     initTilt();
+    initPricingToggle();
   });
 
 });
