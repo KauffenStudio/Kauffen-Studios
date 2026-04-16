@@ -306,6 +306,19 @@ input, textarea, select {
   font-family: var(--f-ui); font-size: .72rem; font-weight: 600;
   color: var(--ink-muted); letter-spacing: .05em;
 }
+.plan-price-old {
+  color: var(--ink-muted); opacity: .5;
+  text-decoration: line-through; font-weight: 400;
+  margin-right: .3rem;
+}
+.plan-card.selected .plan-price-old { color: rgba(247,244,239,.35); }
+.plan-discount {
+  font-family: var(--f-ui); font-size: .5rem; font-weight: 700;
+  background: #e74c3c; color: #fff;
+  padding: .15rem .5rem; border-radius: 4px;
+  letter-spacing: .08em; text-transform: uppercase;
+  vertical-align: middle; margin-left: .4rem;
+}
 .plan-card.selected .plan-price { color: rgba(247,244,239,.5); }
 .plan-dot {
   position: absolute; top: 1rem; right: 1rem;
@@ -689,25 +702,25 @@ input, textarea, select {
         <h1 class="step-title">Choose your <em>package.</em></h1>
 
         <div class="plan-cards" id="planCards">
-          <label class="plan-card" data-plan="starter" data-price="1499">
+          <label class="plan-card" data-plan="starter" data-price="497">
             <input type="radio" name="plan" value="starter" class="plan-radio">
             <div class="plan-dot"></div>
-            <div class="plan-name">Starter</div>
-            <div class="plan-price">from €1,499</div>
+            <div class="plan-name">Starter <span class="plan-discount">15% OFF</span></div>
+            <div class="plan-price"><s class="plan-price-old">€597</s> from €497</div>
             <div class="plan-desc">Clean custom website, up to 5 pages. Perfect for launching your brand.</div>
           </label>
-          <label class="plan-card" data-plan="studio" data-price="2999">
+          <label class="plan-card" data-plan="studio" data-price="1247">
             <input type="radio" name="plan" value="studio" class="plan-radio">
             <div class="plan-dot"></div>
-            <div class="plan-name">Studio</div>
-            <div class="plan-price">from €2,999</div>
+            <div class="plan-name">Growth <span class="plan-discount">15% OFF</span></div>
+            <div class="plan-price"><s class="plan-price-old">€1,497</s> from €1,247</div>
             <div class="plan-desc">Full brand + web up to 12 pages with CMS and SEO. Our most popular.</div>
           </label>
-          <label class="plan-card" data-plan="flagship" data-price="5999">
+          <label class="plan-card" data-plan="flagship" data-price="2497">
             <input type="radio" name="plan" value="flagship" class="plan-radio">
             <div class="plan-dot"></div>
-            <div class="plan-name">Flagship</div>
-            <div class="plan-price">from €5,999</div>
+            <div class="plan-name">Premium <span class="plan-discount">15% OFF</span></div>
+            <div class="plan-price"><s class="plan-price-old">€2,997</s> from €2,497</div>
             <div class="plan-desc">Complex platforms, e-commerce and bespoke digital experiences.</div>
           </label>
         </div>
@@ -716,9 +729,9 @@ input, textarea, select {
         <div class="field" style="margin-bottom:1.4rem;">
           <label for="budgetSlider">Approximate Budget Range</label>
           <div class="budget-wrap">
-            <div class="budget-display" id="budgetDisplay">€2,999</div>
+            <div class="budget-display" id="budgetDisplay">€1,247</div>
             <input type="range" id="budgetSlider" class="budget-slider"
-                   min="500" max="20000" step="250" value="2999">
+                   min="400" max="10000" step="50" value="1247">
             <span class="budget-note">Helps us tailor the right proposal — no payment at this stage.</span>
           </div>
         </div>
@@ -1125,9 +1138,9 @@ function updateStepIndicator() {
 
 /* ── Plan selection ──────────────────────────────── */
 const PLANS = {
-  starter:  { label: 'Starter',  price: 1499 },
-  studio:   { label: 'Studio',   price: 2999 },
-  flagship: { label: 'Flagship', price: 5999 },
+  starter:  { label: 'Starter',  price: 497 },
+  studio:   { label: 'Growth',   price: 1247 },
+  flagship: { label: 'Premium', price: 2497 },
 };
 
 let selectedPlan  = null;

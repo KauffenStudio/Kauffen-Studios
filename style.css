@@ -1133,19 +1133,58 @@ iframe { border: none; display: block; }
 }
 .prc-featured .prc-tag { color: rgba(247,244,239,.4); }
 
-.prc-price { display: flex; align-items: baseline; gap: .6rem; }
+.prc-price { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
 .prc-from {
   font-family: var(--f-ui);
   font-size: .65rem; font-weight: 500;
   color: var(--ink-muted);
 }
 .prc-featured .prc-from { color: rgba(247,244,239,.35); }
+.prc-amount-old {
+  font-family: var(--f-disp);
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  font-weight: 400; letter-spacing: -.02em;
+  line-height: 1;
+  text-decoration: line-through;
+  color: var(--ink-muted);
+  opacity: .5;
+}
+.prc-featured .prc-amount-old { color: rgba(247,244,239,.35); }
 .prc-amount {
   font-family: var(--f-disp);
   font-size: clamp(2.8rem, 5vw, 3.8rem);
   font-weight: 400; letter-spacing: -.03em;
   line-height: 1;
+  color: #C8A96E;
 }
+.prc-featured .prc-amount { color: #C8A96E; }
+
+/* Discount badge */
+.prc-discount-badge {
+  position: absolute;
+  top: 1.2rem; right: 1.2rem;
+  font-family: var(--f-ui);
+  font-size: .55rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  background: #e74c3c;
+  color: #fff;
+  padding: .3rem .8rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.prc-featured .prc-discount-badge {
+  background: #e74c3c;
+}
+
+/* Old retainer price (strikethrough) */
+.prc-ret-old {
+  font-family: var(--f-ui);
+  font-size: .8rem; font-weight: 400;
+  text-decoration: line-through;
+  color: var(--ink-muted);
+  opacity: .5;
+}
+.prc-featured .prc-ret-old { color: rgba(247,244,239,.3); }
 
 .prc-desc {
   font-family: var(--f-ui);

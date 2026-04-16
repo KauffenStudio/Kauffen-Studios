@@ -573,12 +573,15 @@ function initPricingToggle() {
     });
     prices.forEach(p => {
       const amount = p.querySelector('.prc-amount');
+      const amountOld = p.querySelector('.prc-amount-old');
       const from = p.querySelector('.prc-from');
       if (isMonthly) {
         amount.textContent = p.dataset.monthly;
+        if (amountOld) amountOld.textContent = p.dataset.monthlyOld || '';
         from.textContent = 'From';
       } else {
         amount.textContent = p.dataset.oneoff;
+        if (amountOld) amountOld.textContent = p.dataset.oneoffOld || '';
         from.textContent = 'From';
       }
     });
