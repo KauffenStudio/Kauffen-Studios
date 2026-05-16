@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muslim Daily — Quran, Prayer Times &amp; Hijri Calendar</title>
+  <meta name="description" content="A free, ad-free companion for daily Islamic practice on iOS. The Quran in eight languages, accurate prayer times, the Qibla, the Hijri calendar, the 99 Names of Allah, du'as and adhkar. Private by design.">
+  <meta name="theme-color" content="#F4ECD8">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://kauffen.com/muslim-daily/">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #F4ECD8;
+      --bg-alt: #EBDEBF;
+      --ink: #1F1A14;
+      --ink-mid: #4A3F2E;
+      --ink-muted: #7A6A52;
+      --accent: #0E5C3A;
+      --ochre: #8A6D3B;
+      --br: rgba(31, 26, 20, 0.14);
+      --f-disp: 'Playfair Display', Georgia, serif;
+      --f-ui: 'Space Grotesk', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f-ui);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+    a:hover { color: var(--ink); }
+    .nav {
+      border-bottom: 1px solid var(--br);
+      padding: 1.25rem clamp(1.5rem, 5vw, 4rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.875rem;
+      letter-spacing: 0.04em;
+    }
+    .nav a { text-decoration: none; color: var(--ink); }
+    .nav .brand { font-weight: 600; }
+    .nav .brand em { font-style: italic; font-weight: 400; color: var(--ink-mid); }
+    .nav .back { color: var(--ink-muted); }
+    .nav .back:hover { color: var(--ink); }
+
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: clamp(4rem, 10vw, 8rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem);
+      text-align: center;
+    }
+    .eyebrow {
+      color: var(--ink-muted);
+      font-size: 0.8125rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+    .fleuron {
+      color: var(--ochre);
+      font-size: 1.5rem;
+      margin: 1.5rem 0;
+      letter-spacing: 0.5em;
+      padding-left: 0.5em;
+    }
+    h1 {
+      font-family: var(--f-disp);
+      font-weight: 400;
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    h1 em { font-style: italic; color: var(--accent); }
+    .lede {
+      font-family: var(--f-disp);
+      font-style: italic;
+      font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+      line-height: 1.45;
+      color: var(--ink-mid);
+      max-width: 620px;
+      margin: 0 auto 2.5rem;
+    }
+
+    section {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 4rem);
+    }
+    h2 {
+      font-family: var(--f-disp);
+      font-weight: 500;
+      font-size: clamp(1.5rem, 3vw, 1.875rem);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.25rem;
+      text-align: center;
+    }
+    p { margin-bottom: 1rem; color: var(--ink); font-size: 1.0625rem; }
+    .center { text-align: center; }
+    .muted { color: var(--ink-muted); }
+    ul.features {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.5rem 2rem;
+    }
+    ul.features li {
+      padding: 0.4rem 0;
+      font-size: 1rem;
+      color: var(--ink);
+      border-bottom: 1px solid var(--br);
+    }
+    ul.features li::before { content: "·  "; color: var(--ochre); font-weight: 600; }
+
+    .divider {
+      text-align: center;
+      color: var(--ochre);
+      margin: 3rem 0 2rem;
+      letter-spacing: 0.5em;
+      font-size: 0.875rem;
+    }
+
+    .contact-card {
+      background: var(--bg-alt);
+      border-radius: 4px;
+      padding: 2rem;
+      text-align: center;
+      margin: 2rem 0;
+    }
+    .contact-card h3 {
+      font-family: var(--f-disp);
+      font-weight: 500;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .contact-card a {
+      font-size: 1.125rem;
+      font-weight: 500;
+    }
+
+    footer {
+      border-top: 1px solid var(--br);
+      padding: 2.5rem clamp(1.5rem, 5vw, 4rem);
+      font-size: 0.875rem;
+      color: var(--ink-muted);
+      text-align: center;
+    }
+    footer a { color: var(--ink-mid); text-decoration: none; margin: 0 0.75rem; }
+    footer a:hover { color: var(--ink); }
+    .footer-meta {
+      margin-top: 1.25rem;
+      font-size: 0.8125rem;
+      color: var(--ink-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <a href="https://kauffen.com/" class="brand"><b>KAUFFEN</b> <em>Studios</em></a>
+    <a href="https://kauffen.com/" class="back">← Back to kauffen.com</a>
+  </header>
+
+  <div class="hero">
+    <p class="eyebrow">Muslim Daily for iOS</p>
+    <div class="fleuron">۞</div>
+    <h1>Begin each day<br>with an <em>ayah.</em></h1>
+    <p class="lede">A free, ad-free companion for daily Islamic practice — the Quran, prayer times, and the Hijri calendar, gathered in one quiet place.</p>
+  </div>
+
+  <section>
+    <h2>What's inside</h2>
+    <ul class="features">
+      <li>The Quran in eight languages</li>
+      <li>Verse-by-verse recitation</li>
+      <li>A daily ayah &amp; hadith</li>
+      <li>Prayer times — 12 methods</li>
+      <li>Qibla compass</li>
+      <li>The Hijri calendar</li>
+      <li>Important Islamic days</li>
+      <li>The 99 Names of Allah</li>
+      <li>Morning &amp; evening adhkar</li>
+      <li>Curated du'as for daily life</li>
+      <li>Tasbih (dhikr) counter</li>
+      <li>Quiet prayer reminders</li>
+    </ul>
+
+    <p class="center muted" style="margin-top:1.5rem">Eight languages — Arabic, English, Urdu, Indonesian, Turkish, French, Persian, Bengali.<br>The Quran in Arabic Uthmani with seven translations.</p>
+  </section>
+
+  <div class="divider">⸻ ۞ ⸻</div>
+
+  <section>
+    <h2>Private by design</h2>
+    <p>No accounts. No analytics. No advertising. No trackers. Everything stays on your device — your settings, your bookmarks, your du'a list. Your location is used only on your device to compute prayer times and the Qibla, and is never transmitted.</p>
+    <p class="center muted" style="margin-top:1.5rem"><a href="privacy.html">Privacy Policy</a>  ·  <a href="terms.html">Terms of Service</a>  ·  <a href="support.html">Support</a></p>
+  </section>
+
+  <div class="divider">⸻ ۞ ⸻</div>
+
+  <section>
+    <h2>Free, and freely given</h2>
+    <p>Muslim Daily is free, ad-free, and supported by Sadaqah. If it has helped your daily practice, you may leave a voluntary contribution — otherwise, just use it. Nothing is locked behind a payment.</p>
+
+    <div class="contact-card">
+      <h3>Support &amp; Contact</h3>
+      <p>Questions, feedback, content corrections, or technical issues?</p>
+      <p><a href="mailto:geral@kauffen.com">geral@kauffen.com</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <a href="https://kauffen.com/muslim-daily/privacy.html">Privacy</a>
+    <a href="https://kauffen.com/muslim-daily/terms.html">Terms</a>
+    <a href="https://kauffen.com/muslim-daily/support.html">Support</a>
+    <a href="https://kauffen.com/">Kauffen Studios</a>
+    <div class="footer-meta">© 2026 Kauffen · Made in Portugal</div>
+  </footer>
+
+</body>
+</html>
