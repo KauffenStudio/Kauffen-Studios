@@ -6,7 +6,14 @@
   <title>Kauffen Studios — Web Design & Development Agency</title>
   <meta name="description" content="Kauffen Studios — A boutique web design and development agency crafting custom digital experiences for ambitious brands.">
   <meta name="theme-color" content="#0A0907">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
   <link rel="canonical" href="https://kauffen.com/">
+
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -18,7 +25,7 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Kauffen Studios — We design & build digital experiences">
-  <meta property="og:locale" content="en">
+  <meta property="og:locale" content="en_US">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -32,12 +39,60 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <!-- GSAP -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <!-- Lenis -->
-  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
 
   <link rel="stylesheet" href="style.css">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": "https://kauffen.com/#organization",
+    "name": "Kauffen Studios",
+    "url": "https://kauffen.com/",
+    "image": "https://kauffen.com/img/og-image.jpg",
+    "logo": "https://kauffen.com/img/og-image.jpg",
+    "description": "Kauffen Studios is a boutique web design and development agency crafting custom digital experiences for ambitious brands worldwide.",
+    "email": "geral@kauffen.com",
+    "priceRange": "€€",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "PT"
+    },
+    "areaServed": {
+      "@type": "Place",
+      "name": "Worldwide"
+    },
+    "knowsAbout": [
+      "Web Design",
+      "Web Development",
+      "UI/UX Design",
+      "Branding",
+      "Hosting & Deployment",
+      "Digital Strategy"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Design" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Development" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Hosting & Deployment" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Privacy & Security" } }
+      ]
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "geral@kauffen.com",
+      "contactType": "sales",
+      "availableLanguage": ["en", "pt"]
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -217,7 +272,10 @@
               <span class="bext">↗</span>
             </div>
             <div class="wc-vp">
-              <img src="img/projects/esimpanda.jpg" alt="eSIM Panda website" loading="lazy">
+              <picture>
+                <source srcset="img/projects/esimpanda.webp" type="image/webp">
+                <img src="img/projects/esimpanda.jpg" alt="eSIM Panda website" loading="lazy">
+              </picture>
               <div class="wc-hover"><span>Visit Site ↗</span></div>
             </div>
           </div>
@@ -244,7 +302,10 @@
               <span class="bext">↗</span>
             </div>
             <div class="wc-vp">
-              <img src="img/projects/roomdott.jpg" alt="Roomdott website" loading="lazy">
+              <picture>
+                <source srcset="img/projects/roomdott.webp" type="image/webp">
+                <img src="img/projects/roomdott.jpg" alt="Roomdott website" loading="lazy">
+              </picture>
               <div class="wc-hover"><span>Visit Site ↗</span></div>
             </div>
           </div>
@@ -271,7 +332,10 @@
               <span class="bext">↗</span>
             </div>
             <div class="wc-vp">
-              <img src="img/projects/annacapocchi.jpg" alt="Anna Capocchi website" loading="lazy">
+              <picture>
+                <source srcset="img/projects/annacapocchi.webp" type="image/webp">
+                <img src="img/projects/annacapocchi.jpg" alt="Anna Capocchi website" loading="lazy">
+              </picture>
               <div class="wc-hover"><span>Visit Site ↗</span></div>
             </div>
           </div>
@@ -298,7 +362,10 @@
               <span class="bext">↗</span>
             </div>
             <div class="wc-vp">
-              <img src="img/projects/twocreate.jpg" alt="TwoCreate website" loading="lazy">
+              <picture>
+                <source srcset="img/projects/twocreate.webp" type="image/webp">
+                <img src="img/projects/twocreate.jpg" alt="TwoCreate website" loading="lazy">
+              </picture>
               <div class="wc-hover"><span>Visit Site ↗</span></div>
             </div>
           </div>
@@ -325,7 +392,10 @@
               <span class="bext">↗</span>
             </div>
             <div class="wc-vp">
-              <img src="img/projects/istartec.jpg" alt="iStarTec website" loading="lazy">
+              <picture>
+                <source srcset="img/projects/istartec.webp" type="image/webp">
+                <img src="img/projects/istartec.jpg" alt="iStarTec website" loading="lazy">
+              </picture>
               <div class="wc-hover"><span>Visit Site ↗</span></div>
             </div>
           </div>
@@ -352,7 +422,10 @@
               <span class="bext">↗</span>
             </div>
             <div class="wc-vp">
-              <img src="img/projects/augustinagapii.jpg" alt="Augustin Agapii website" loading="lazy">
+              <picture>
+                <source srcset="img/projects/augustinagapii.webp" type="image/webp">
+                <img src="img/projects/augustinagapii.jpg" alt="Augustin Agapii website" loading="lazy">
+              </picture>
               <div class="wc-hover"><span>Visit Site ↗</span></div>
             </div>
           </div>
@@ -379,7 +452,10 @@
               <span class="bext">↗</span>
             </div>
             <div class="wc-vp">
-              <img src="img/projects/jetwash.jpg" alt="JetWash 24 website" loading="lazy">
+              <picture>
+                <source srcset="img/projects/jetwash.webp" type="image/webp">
+                <img src="img/projects/jetwash.jpg" alt="JetWash 24 website" loading="lazy">
+              </picture>
               <div class="wc-hover"><span>Visit Site ↗</span></div>
             </div>
           </div>
@@ -406,7 +482,10 @@
               <span class="bext">↗</span>
             </div>
             <div class="wc-vp">
-              <img src="img/projects/wearemotto.jpg" alt="Motto website" loading="lazy">
+              <picture>
+                <source srcset="img/projects/wearemotto.webp" type="image/webp">
+                <img src="img/projects/wearemotto.jpg" alt="Motto website" loading="lazy">
+              </picture>
               <div class="wc-hover"><span>Visit Site ↗</span></div>
             </div>
           </div>
@@ -433,7 +512,10 @@
               <span class="bext">↗</span>
             </div>
             <div class="wc-vp">
-              <img src="img/projects/camillemormal.jpg" alt="Camille Mormal website" loading="lazy">
+              <picture>
+                <source srcset="img/projects/camillemormal.webp" type="image/webp">
+                <img src="img/projects/camillemormal.jpg" alt="Camille Mormal website" loading="lazy">
+              </picture>
               <div class="wc-hover"><span>Visit Site ↗</span></div>
             </div>
           </div>
@@ -847,6 +929,6 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script defer src="script.js"></script>
 </body>
 </html>
